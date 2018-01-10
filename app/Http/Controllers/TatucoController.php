@@ -77,7 +77,7 @@ class TatucoController extends Controller
         try{
             if (count($this->data) == 0)
             {
-                $this->data = $this->data->request->all();
+                $this->data = $this->request->all();
             }
             $this->object = $this->model->create($this->data);
 
@@ -101,7 +101,7 @@ class TatucoController extends Controller
             $this->object = $this->model->findOrFail($id);
 
             if (count($this->data) == 0) {
-                $this->data = $this->data->request->all();
+                $this->data = $this->request->all();
             }
 
             $this->object->update($this->data);

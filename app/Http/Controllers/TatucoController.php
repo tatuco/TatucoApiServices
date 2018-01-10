@@ -87,7 +87,7 @@ class TatucoController extends Controller
                                     $this->name=>$this->object], 200);
 
         }catch (\Exception $e){
-            Log::critical("No se a podido Añadir: {$e->getCode()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json(["msj"=>"Error de servidor"], 500);
         }
     }

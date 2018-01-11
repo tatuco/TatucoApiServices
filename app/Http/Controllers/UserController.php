@@ -19,6 +19,7 @@ class UserController extends TatucoController
         $this->name = 'user';
         $this->model = new User();
         $this->namePlural = 'users';
+        $this->paginate = 10;
     }
 
     public function store(Request $request)

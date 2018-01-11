@@ -26,7 +26,7 @@ class TatucoController extends Controller
         //si la paginacion es true, recargamos la variable con el modelo para llamar al metodo paginate()
         if ($this->paginate)
         {
-            $$varname = $this->model->paginate($this->limit);
+            $$varname = $this->model->paginate();
         }
         /**
          *  igualamos la data a lo que devuelva la funcion compact de php
@@ -61,11 +61,12 @@ class TatucoController extends Controller
             Log::info('Encontrado');
             return response()->json([
                 'status'=>true,
-                'msj'=> $this->name. 'Encontrado',
+                'msj'=> $this->name. ' Encontrado',
                 $this->name=>$this->object,
                 200]);
         }catch (\Exception $e){
-            Log::critical("Error no encontrado: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            return response()->json(["msj"=>"Error de servidor"], 500);
         }
     }
     /**
@@ -113,8 +114,8 @@ class TatucoController extends Controller
             ], 200);
 
         }catch(\Exception $e){
-            Log::critical("No se a podido Añadir: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
-            return response()->json(["msj"=>"Error de Servidor (500)"], 500);
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            return response()->json(["msj"=>"Error de servidor"], 500);
         }
     }
 
@@ -139,8 +140,8 @@ class TatucoController extends Controller
             ],200);
 
         }catch (\Exception $e){
-            Log::critical("No se a podido Añadir: {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
-            return response()->json(["msj"=>"Error de Servidor (500)"], 500);
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            return response()->json(["msj"=>"Error de servidor"], 500);
         }
     }
 }

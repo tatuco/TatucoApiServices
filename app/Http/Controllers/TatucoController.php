@@ -24,9 +24,9 @@ class TatucoController extends Controller
         //iguala el nombre del objeto en plural a una variable
         $varname = $this->namePlural;
         //si la paginacion es true, recargamos la variable con el modelo para llamar al metodo paginate()
-        if ($this->paginate)
+        if ($this->paginate?:$this->paginate=10)
         {
-            $$varname = $this->model->paginate();
+            $$varname = $this->model->paginate($this->paginate);
         }
         /**
          *  igualamos la data a lo que devuelva la funcion compact de php

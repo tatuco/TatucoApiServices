@@ -77,7 +77,7 @@ class TatucoController extends Controller
         try{
             if (count($this->data) == 0)
             {
-                $this->data = $this->data->request->all();
+                $this->data = $this->request->all();
             }
             $this->object = $this->model->create($this->data);
 
@@ -87,7 +87,7 @@ class TatucoController extends Controller
                                     $this->name=>$this->object], 200);
 
         }catch (\Exception $e){
-            Log::critical("No se a podido Añadir: {$e->getCode()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json(["msj"=>"Error de servidor"], 500);
         }
     }
@@ -101,7 +101,7 @@ class TatucoController extends Controller
             $this->object = $this->model->findOrFail($id);
 
             if (count($this->data) == 0) {
-                $this->data = $this->data->request->all();
+                $this->data = $this->request->all();
             }
 
             $this->object->update($this->data);

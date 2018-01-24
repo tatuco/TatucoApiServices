@@ -44,7 +44,7 @@ class AuthController extends Controller
             ], 200);
             Log::info("Token invalidado satisfactoriamente");
         }catch (JWTException $e){
-            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}, codigo del peo: {$e->getStatusCode()}");
             return response()->json([
                 'msj' => 'Error al intentar olvidar token'
             ], 500);

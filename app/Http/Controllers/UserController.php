@@ -24,7 +24,8 @@ class UserController extends TatucoController
 
     public function store(Request $request)
     {
-        $request->password = bcrypt($request->password);
+        $pass = bcrypt($request->json(['password']));
+        $request->merge(['password' => $pass]);
         $this->request = $request;
 
         return $this->_store();
@@ -32,6 +33,10 @@ class UserController extends TatucoController
 
     public function update($id, Request $request)
     {
+        if($request->json(['password'])){
+           $pass = bcrypt($request->json(['password']));
+           $request->merge(['password' => $pass]);
+        }
         $this->request = $request;
         return $this->_update($id);
     }

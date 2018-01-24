@@ -6,6 +6,8 @@ use App\Http\Controllers\TatucoController;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
 
 class UserController extends TatucoController
 {
@@ -40,4 +42,47 @@ class UserController extends TatucoController
         $this->request = $request;
         return $this->_update($id);
     }
+    public function asignedRole($idRole, $idUser)
+    {
+        try{
+            $user=User::find($idUser);
+            $user->assignRole($idRole);
+
+            $user=User::find($idUser);
+            $rolesAsigned=$user->getRoles();
+
+            if($rolesAsigned){
+                Log::info('Rol Asignado');
+                return response()->json([
+                    'status'=> true,
+                    'msj'=> 'role asignado satisfactoriamente. ',
+                    'rolesAsigned' => $rolesAsigned
+                ], 200);
+            }
+        }catch (\Exception $e){
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            return response()->json(["msj"=>"Error de servidor"], 500);
+        }
+    }
+
+    public function revokeRole($idUser, $idRole)
+    {
+        try{
+            $user=User::find($idUser);
+            $user->revokeRole($idRole);
+            $rolesAsigned=$user->getRoles();
+            if ($rolesAsigned){
+                return response()->json([
+                   'status' => true,
+                   'msj' => 'Role revocado Satisfactoriamente',
+                   'rolesAsigned' => $rolesAsigned
+                ], 200);
+            }
+        }catch(\Exception $e){
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            return response()->json(["msj"=>"Error de servidor"], 500);
+        }
+
+    }
+
 }

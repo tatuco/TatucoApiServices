@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RoleController extends TatucoController
 {
@@ -28,5 +29,25 @@ class RoleController extends TatucoController
 
         $this->request = $request;
         return $this->_update($id);
+    }
+    public function asignedPermissionToRole(Request $request)
+    {
+        try{
+            $roleId=$request->json(['role']);
+            $permissionId=$request->json(['permission']);
+            $rol=Role::find($roleId);
+            $rol->assignPermission($permissionId);
+
+            if($rol->save()){
+                Log::info('Permiso Asignado');
+                return response()->json([
+                    'status' => true,
+                    'msj' => 'Permiso Asignado '
+                ], 200);
+            }
+        }catch (\Exception $e){
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            return response()->json(["msj"=>"Error de servidor"], 500);
+        }
     }
 }

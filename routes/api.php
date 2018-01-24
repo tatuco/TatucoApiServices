@@ -17,3 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::resource('users','UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+Route::resource('roles','RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+Route::resource('permissions','PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);

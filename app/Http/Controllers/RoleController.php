@@ -50,4 +50,21 @@ class RoleController extends TatucoController
             return response()->json(["msj"=>"Error de servidor"], 500);
         }
     }
+    public function quitPermission($idRole, $idPermission)
+    {
+        try{
+            $role = Role::find($idRole);
+            $role->revokePermission($idPermission);
+            if($role->save()){
+                Log::info('Permiso Revocado');
+                return response()->json([
+                    'status' => true,
+                    'msj' => 'Permiso Revocado '
+                ], 200);
+            }
+        }catch (\Exception $e){
+            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
+            return response()->json(["msj"=>"Error de servidor"], 500);
+        }
+    }
 }

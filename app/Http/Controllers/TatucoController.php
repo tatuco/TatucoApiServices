@@ -64,7 +64,7 @@ class TatucoController extends Controller
                 'status'=>true,
                 'msj'=> $this->name. ' Encontrado',
                 $this->name=>$this->object,
-                200]);
+                ], 200);
         }catch (\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json(["msj"=>"Error de servidor"], 500);

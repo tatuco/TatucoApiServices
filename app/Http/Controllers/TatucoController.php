@@ -19,7 +19,7 @@ class TatucoController extends Controller
     /**
      * listar registros del objeto
      */
-    public function index()
+    public function index(Request $request)
     {
         //iguala el nombre del objeto en plural a una variable
         $varname = $this->namePlural;

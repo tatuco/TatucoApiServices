@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\JWTAuth;
+use Illuminate\Routing\Controller as BaseController;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
     public function login(Request $request)
     {
@@ -19,8 +20,9 @@ class AuthController extends Controller
                 return response()->json([
                     'msj' => 'Datos Incorrectos. '
                 ], 401);
-                Log::info('Token Creado');
+
             }
+            Log::info("Token Creado");
         }catch (JWTException $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json([
@@ -76,7 +78,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'user' => $user
-        ], 20);
+        ], 200);
     }
 
 }

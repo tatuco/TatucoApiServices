@@ -16,6 +16,16 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::resource('users','UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
-Route::resource('roles','RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
-Route::resource('permissions','PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+
+Route::post('/login', ['uses' => 'AuthController@login', 'as' => 'login']);
+Route::post('/logout', ['middleware' => ['jwt.auth'], 'uses' => 'AuthController@logout', 'as' => 'logout']);
+Route::get('/validate', ['middleware' => ['jwt.auth'], 'uses' => 'AuthController@validate', 'as' => 'validate']);
+
+Route::group([
+    'middleware' => ['jwt.auth']
+    ], function (){
+    Route::resource('users','UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+    Route::resource('roles','RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+    Route::resource('permissions','PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+
+});

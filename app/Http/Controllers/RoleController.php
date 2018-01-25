@@ -30,6 +30,7 @@ class RoleController extends TatucoController
         $this->request = $request;
         return $this->_update($id);
     }
+
     public function asignedPermissionToRole(Request $request)
     {
         try{

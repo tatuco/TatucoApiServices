@@ -18,7 +18,7 @@ trait PermissionTrait
     /**
      * Users and Roles can have many permissions
      *
-     * @return Illuminate\Database\Eloquent\Model
+     *
      */
     public function permissions()
     {

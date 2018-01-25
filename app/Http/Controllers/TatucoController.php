@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
+use Tymon\JWTAuth\JWTAuth;
 
 class TatucoController extends Controller
 {

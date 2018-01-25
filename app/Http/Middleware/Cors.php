@@ -25,6 +25,7 @@ class Cors
     {
         if($request->get('access_token')) {
           $token = $request->get('access_token');
+            header('Authorization: Bearer ' . $token);
         }
 
         $trusted_domains = ["http://localhost:4200", "http://localhost:8000"];
@@ -35,7 +36,7 @@ class Cors
                 header('Access-Control-Allow-Origin: ' . $origin);
                 // header('Access-Control-Allow-Headers: Origin, Content-Type, Content-Type, X-XSRF-TOKEN');
                 header('Access-Control-Allow-Headers: *');
-                header('Authorization: Bearer ' . $token);
+
 
 
             }

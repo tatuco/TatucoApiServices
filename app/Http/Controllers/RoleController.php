@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Role;
+
+use Bican\Roles\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 

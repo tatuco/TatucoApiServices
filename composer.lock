@@ -4,8 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e97ca3eba195e0c579b33334f8f5972d",
+    "content-hash": "65a930736a83c1f1e2ed4e925ca59914",
     "packages": [
+        {
+            "name": "bican/roles",
+            "version": "2.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/romanbican/roles.git",
+                "reference": "582349795ef0af9ff1a64bb2c1b884bbd5ab7c98"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/romanbican/roles/zipball/582349795ef0af9ff1a64bb2c1b884bbd5ab7c98",
+                "reference": "582349795ef0af9ff1a64bb2c1b884bbd5ab7c98",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Bican\\Roles": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Bičan",
+                    "email": "romanbican@seznam.cz"
+                }
+            ],
+            "description": "Powerful package for handling roles and permissions in Laravel 5.",
+            "keywords": [
+                "acl",
+                "auth",
+                "illuminate",
+                "laravel",
+                "permissions",
+                "roles"
+            ],
+            "time": "2015-07-30T10:00:12+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -926,16 +971,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "579f4ce846734a1cf55d6a531d00ca07a43e3cda"
+                "reference": "e57b3a09784f846411aa7ed664eedb73e3399078"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/579f4ce846734a1cf55d6a531d00ca07a43e3cda",
-                "reference": "579f4ce846734a1cf55d6a531d00ca07a43e3cda",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/e57b3a09784f846411aa7ed664eedb73e3399078",
+                "reference": "e57b3a09784f846411aa7ed664eedb73e3399078",
                 "shasum": ""
             },
             "require": {
@@ -973,7 +1018,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-12-26T14:43:21+00:00"
+            "time": "2018-01-25T21:31:33+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -4051,16 +4096,16 @@
         },
         {
             "name": "symfony/thanks",
-            "version": "v1.0.3",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/thanks.git",
-                "reference": "8c12bbe4baabcb8e640efaaaab40e3a4497c9fb4"
+                "reference": "c757ee0c9dcfcc0e9e30fbbbdcadeb9dcc9aaaf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/thanks/zipball/8c12bbe4baabcb8e640efaaaab40e3a4497c9fb4",
-                "reference": "8c12bbe4baabcb8e640efaaaab40e3a4497c9fb4",
+                "url": "https://api.github.com/repos/symfony/thanks/zipball/c757ee0c9dcfcc0e9e30fbbbdcadeb9dcc9aaaf4",
+                "reference": "c757ee0c9dcfcc0e9e30fbbbdcadeb9dcc9aaaf4",
                 "shasum": ""
             },
             "require": {
@@ -4090,7 +4135,7 @@
                 }
             ],
             "description": "Give thanks (in the form of a GitHub ⭐) to your fellow PHP package maintainers (not limited to Symfony components)!",
-            "time": "2018-01-19T16:12:41+00:00"
+            "time": "2018-01-26T10:44:34+00:00"
         },
         {
             "name": "theseer/tokenizer",

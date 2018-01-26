@@ -26,7 +26,12 @@ Route::group([
     'middleware' => ['jwt.auth']
     ], function (){
     Route::resource('users','UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
-    Route::resource('roles','RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
-    Route::resource('permissions','PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+    Route::group(['as' => 'sysadmin.',
+        'middleware'=> ['sysadmin']
+    ], function(){
+        Route::resource('roles','RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+        Route::resource('permissions','PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+
+    });
 
 });

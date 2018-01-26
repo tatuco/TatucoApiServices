@@ -61,5 +61,9 @@ class Kernel extends HttpKernel
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
         'sysadmin' => \App\Http\Middleware\SysAdminMiddleware::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'role' => \Bican\Roles\Middleware\VerifyRole::class,
+        'permission' => \Bican\Roles\Middleware\VerifyPermission::class,
+        'level' => \Bican\Roles\Middleware\VerifyLevel::class,
     ];
 }

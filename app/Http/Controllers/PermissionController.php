@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Permission;
+
+use Bican\Roles\Models\Permission;
 use Illuminate\Http\Request;
 
 class PermissionController extends TatucoController

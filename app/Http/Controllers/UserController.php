@@ -21,7 +21,7 @@ class UserController extends TatucoController
         $this->name = 'user';
         $this->model = new User();
         $this->namePlural = 'users';
-        $this->paginate = 10;
+        //$this->paginate = 10;
     }
 
     public function store(Request $request)
@@ -46,7 +46,7 @@ class UserController extends TatucoController
     {
         try{
             $user=User::find($idUser);
-            $user->assignRole($idRole);
+            $user->attachRole($idRole);
 
             $user=User::find($idUser);
             $rolesAsigned=$user->getRoles();
@@ -69,7 +69,7 @@ class UserController extends TatucoController
     {
         try{
             $user=User::find($idUser);
-            $user->revokeRole($idRole);
+            $user->detachRole($idRole);
             $rolesAsigned=$user->getRoles();
             if ($rolesAsigned){
                 return response()->json([

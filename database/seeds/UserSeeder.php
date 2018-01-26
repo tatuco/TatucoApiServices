@@ -19,10 +19,28 @@ class UserSeeder extends Seeder
             'updated_at'=> new DateTime
         ]);
 
+        DB::table('users')->insert([
+            'name' => "Admin",
+            'email' => 'admin@tatuco.com',
+            'password' => bcrypt('123456'),
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
         DB::table('roles')->insert([
-            'name'=> 'root',
+            'name'=> 'sysadmin',
             'slug'=>'SYSADMIN',
             'description' => 'todos los permisos',
+            'level' => 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
+        DB::table('roles')->insert([
+            'name'=> 'admin',
+            'slug'=>'ADMIN',
+            'description' => 'administrador del sistema',
+            'level' => 2,
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime
         ]);
@@ -34,17 +52,9 @@ class UserSeeder extends Seeder
             'updated_at'=> new DateTime
         ]);
 
-        DB::table('permissions')->insert([
-            'name'=> 'all-access',
-            'slug'=>'ALL-ACCESS',
-            'description' => 'todos los permisos',
-            'created_at'=> new DateTime,
-            'updated_at'=> new DateTime
-        ]);
-
-        DB::table('permission_role')->insert([
-            'permission_id'=> 1,
-            'role_id'=> 1,
+        DB::table('role_user')->insert([
+            'role_id'=> 2,
+            'user_id'=> 2,
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime
         ]);

@@ -25,7 +25,6 @@ Route::resource('users','UserController', ['only' => ['index', 'store', 'update'
 Route::group([
     'middleware' => ['jwt.auth']
     ], function (){
-    Route::resource('users','UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
     Route::group(['as' => 'sysadmin.',
         'middleware'=> ['sysadmin']
     ], function(){

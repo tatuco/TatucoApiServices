@@ -147,4 +147,12 @@ class TatucoController extends Controller
             return response()->json(["msj"=>"Error de servidor"], 500);
         }
     }
+
+    public function prueba(){
+        $user = \JWTAuth::parseToken()->authenticate();
+        if($user->is('SYSADMIN')){
+            echo "eres sysadmin";
+            Log::info("sysadmin logeado");
+        }
+    }
 }

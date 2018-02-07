@@ -45,7 +45,7 @@ class TatucoController extends Controller
             ], 200);
         }
 
-        return response()->json(["resp" => $this->data], 200);
+        return response()->json([$this->data], 200);
     }
     /**
      * consultar un registro por id, el objeto sera el que se traiga el metodo find() que busca una registro

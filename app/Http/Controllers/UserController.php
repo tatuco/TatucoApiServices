@@ -50,11 +50,13 @@ class UserController extends TatucoController
         $this->request = $request;
         return $this->_update($id);
     }
-    public function asignedRole($idRole, $idUser)
+    public function assignedRole(Request $request)
     {
         try{
+            $idUser = $request->json(['user']);
+            $idRole = $request->json(['role']);
             $user=User::find($idUser);
-            $user->attachRole($idRole);
+            $user->assignRole($idRole);
 
             $user=User::find($idUser);
             $rolesAsigned=$user->getRoles();
@@ -73,18 +75,22 @@ class UserController extends TatucoController
         }
     }
 
-    public function revokeRole($idUser, $idRole)
+    public function revokeRole(Request $request, $idUser, $idRole)
     {
         try{
             $user=User::find($idUser);
-            $user->detachRole($idRole);
-            $rolesAsigned=$user->getRoles();
-            if ($rolesAsigned){
+            if ($user->revokeRole($idRole)){
+                $rolesAsigned=$user->getRoles();
                 return response()->json([
                    'status' => true,
                    'msj' => 'Role revocado Satisfactoriamente',
                    'rolesAsigned' => $rolesAsigned
                 ], 200);
+            }else{
+                return response()->json([
+                   'status' => false,
+                    'msj' => 'Error al revocar el rol',
+                ], 500);
             }
         }catch(\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
@@ -93,4 +99,10 @@ class UserController extends TatucoController
 
     }
 
+    public function create(){
+        return response()->json([
+            'name' => 'string',
+            'email' => 'string'
+            ],200);
+    }
 }

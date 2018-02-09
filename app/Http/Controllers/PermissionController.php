@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use Bican\Roles\Models\Permission;
+use Caffeinated\Shinobi\Models\Permission;
 use Illuminate\Http\Request;
 
 class PermissionController extends TatucoController

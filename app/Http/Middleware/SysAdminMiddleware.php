@@ -17,7 +17,7 @@ class SysAdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $user = Auth::user();
+      /*  $user = Auth::user();
        // Log::info($user);
         if($user->level() == 1){
             return $next($request);
@@ -26,6 +26,6 @@ class SysAdminMiddleware
         return response()->json([
                 'msj' => "Permiso Denegado.",
                 'description' => "No tienes Acceso de Sysadmin"
-            ], 401);
+            ], 401);*/
     }
 }

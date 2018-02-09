@@ -15,7 +15,6 @@ class PermissionSeeder extends Seeder
             'name'=> 'Index.users',
             'slug'=>'index.users',
             'description' => 'listar usuarios',
-            'model' => 'User',
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime
         ]);

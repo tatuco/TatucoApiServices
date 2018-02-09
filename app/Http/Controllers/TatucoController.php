@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
+use App\Http\Services\UserService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
+use Optimus\Bruno\EloquentBuilderTrait;
+use Optimus\Bruno\LaravelController;
 use Tymon\JWTAuth\JWTAuth;
 
-class TatucoController extends Controller
+class TatucoController extends LaravelController
 {
+    use EloquentBuilderTrait;
     public $model;
     public $object;
     public $name;
@@ -19,33 +24,40 @@ class TatucoController extends Controller
     public $limit = null;
     public $data = [];
     public $request;
+    public $service;
     /**
      * listar registros del objeto
      */
+    public function __construct(UserService $userService)
+    {
+        $this->service = $userService;
+
+    }
     public function index(Request $request)
     {
-        //iguala el nombre del objeto en plural a una variable
-        $varname = $this->namePlural;
-        //si la paginacion es true, recargamos la variable con el modelo para llamar al metodo paginate()
-        if ($this->paginate?:10)
-        {
-            $$varname = $this->model->paginate($this->paginate);
-        }
+        $resourceOptions = $this->parseResourceOptions();
+        $query = $this->model::query();
+        $this->applyResourceOptions($query, $resourceOptions);
+        $items = $query->get();
+
+        // Parse the data using Optimus\Architect
+        $parsedData = $this->parseData($items, $resourceOptions, $this->namePlural);
+
         /**
          *  igualamos la data a lo que devuelva la funcion compact de php
          * la cual convierte en una matriz clave = valor
          * y retornamos la data en formato json
         */
-        $this->data = compact($varname);
+        //$this->data = compact($varname);
 
-        if(!$this->data)
+        if(!$this->response($parsedData))
         {
             return response()->json([
                         "msj"=> "no hay registros"
             ], 200);
         }
 
-        return response()->json($this->data, 200);
+        return response()->json($this->response($parsedData), 200);
     }
     /**
      * consultar un registro por id, el objeto sera el que se traiga el metodo find() que busca una registro
@@ -55,17 +67,21 @@ class TatucoController extends Controller
     public function show($id)
     {
         try{
-            $this->object = $this->model->find($id);
+             $resourceOptions = $this->parseResourceOptions();
 
-            if(!$this->object)
+             $this->data = $this->model::find($id);
+
+            if(!$this->data)
             {
-                return response()->json(['msj'=>$this->name. 'no existe'], 404);
+                return response()->json(['msj'=>$this->name. ' no existe'], 404);
             }
+            $parsedData = $this->parseData($this->data, $resourceOptions, $this->name);
+
             Log::info('Encontrado');
             return response()->json([
                 'status'=>true,
                 'msj'=> $this->name. ' Encontrado',
-                $this->name=>$this->object,
+                $this->name=> $this->response($parsedData),
                 ], 200);
         }catch (\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
@@ -87,7 +103,7 @@ class TatucoController extends Controller
 
             Log::info('Guardado');
             return response()->json(['status'=>true,
-                                    'msj'=>$this->name. 'Guardado',
+                                    'msj'=>$this->name. ' Guardado',
                                     $this->name=>$this->object], 200);
 
         }catch (\Exception $e){
@@ -112,7 +128,7 @@ class TatucoController extends Controller
 
             return response()->json([
                 'error'=>false,
-                'msj'=>$this->name. 'Modificado',
+                'msj'=>$this->name. ' Modificado',
                 $this->name=>$this->object
             ], 200);
 

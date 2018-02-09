@@ -3,29 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\TatucoController;
-use App\User;
+use App\Http\Requests\UserRequest;
+use App\Http\Services\UserService;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
+use Optimus\Bruno\EloquentBuilderTrait;
+use Optimus\Bruno\LaravelController;
 
 class UserController extends TatucoController
 {
-    use RegistersUsers;
+   // use RegistersUsers;
+
     /**
      * UserController constructor.
      * construimos los atributos que usara TatucoController
      */
+
     public function __construct()
     {
         $this->name = 'user';
         $this->model = new User();
         $this->namePlural = 'users';
+       // $this->service = new UserService();
         //$this->paginate = 10;
     }
 
     public function store(Request $request)
     {
+
         $pass = bcrypt($request->json(['password']));
         $request->merge(['password' => $pass]);
         $this->request = $request;

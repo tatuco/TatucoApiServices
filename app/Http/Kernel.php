@@ -60,10 +60,10 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
-        'sysadmin' => \App\Http\Middleware\SysAdminMiddleware::class,
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
-        'role' => \Bican\Roles\Middleware\VerifyRole::class,
+        /*'role' => \Bican\Roles\Middleware\VerifyRole::class,
         'permission' => \Bican\Roles\Middleware\VerifyPermission::class,
-        'level' => \Bican\Roles\Middleware\VerifyLevel::class,
+        'level' => \Bican\Roles\Middleware\VerifyLevel::class,*/
+        'roleshinobi' => \Caffeinated\Shinobi\Middleware\UserHasRole::class,
+        'permissionshinobi' => \Caffeinated\Shinobi\Middleware\UserHasPermission::class,
     ];
 }

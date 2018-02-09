@@ -16,7 +16,7 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $user = Auth::user();
+        /* $user = Auth::user();
         // Log::info($user);
         if($user->level() == 2 || $user->level() ==1){
             return $next($request);
@@ -25,6 +25,6 @@ class AdminMiddleware
             return response()->json([
                 'msj' => "Permiso Denegado.",
                 'description' => "No tienes Acceso de Admin"
-            ], 401);
+            ], 401);*/
     }
 }

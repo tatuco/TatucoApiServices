@@ -59,7 +59,7 @@ class TatucoController extends Controller
 
             if(!$this->object)
             {
-                return response()->json(['msj'=>$this->name. 'no existe'], 404);
+                return response()->json(['msj'=>$this->name. ' no existe'], 404);
             }
             Log::info('Encontrado');
             return response()->json([
@@ -87,7 +87,7 @@ class TatucoController extends Controller
 
             Log::info('Guardado');
             return response()->json(['status'=>true,
-                                    'msj'=>$this->name. 'Guardado',
+                                    'msj'=>$this->name. ' Guardado',
                                     $this->name=>$this->object], 200);
 
         }catch (\Exception $e){
@@ -112,7 +112,7 @@ class TatucoController extends Controller
 
             return response()->json([
                 'error'=>false,
-                'msj'=>$this->name. 'Modificado',
+                'msj'=>$this->name. ' Modificado',
                 $this->name=>$this->object
             ], 200);
 

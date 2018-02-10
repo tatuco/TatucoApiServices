@@ -17,11 +17,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/prueba', 'UserController@prueba');
-Route::get('/home', 'ApiController@api');
-Route::post('/login', ['uses' => 'AuthController@login', 'as' => 'login']);
-Route::post('/logout', ['middleware' => ['jwt.auth'], 'uses' => 'AuthController@logout', 'as' => 'logout']);
-Route::get('/validate', ['middleware' => ['jwt.auth'], 'uses' => 'AuthController@validate', 'as' => 'validate']);
+Route::get('/prueba', 'Tatuco\UserController@prueba');
+Route::get('/home', 'Tatuco\ApiController@api');
+Route::post('/login', ['uses' => 'Tatuco\AuthController@login', 'as' => 'login']);
+Route::post('/logout', ['middleware' => ['jwt.auth'], 'uses' => 'Tatuco\AuthController@logout', 'as' => 'logout']);
+Route::get('/validate', ['middleware' => ['jwt.auth'], 'uses' => 'Tatuco\AuthController@validate', 'as' => 'validate']);
 Route::get('/admin', function()
 {
     echo "Is admin!";
@@ -45,10 +45,10 @@ Route::group([
         Route::group([
             'middleware' => ['role:SYSADMIN']
         ], function (){
-            Route::post('users/assigned/role', 'UserController@assignedRole');
-            Route::get('users/revoke/role/{user}/{role}', 'UserController@revokeRole');
-            Route::post('roles/assigned/permission', 'RoleController@assignedPermission');
-            Route::get('roles/revoke/permission/{role}/{permission}', 'RoleController@revokePermission');
+            Route::post('users/assigned/role', 'Tatuco\UserController@assignedRole');
+            Route::get('users/revoke/role/{user}/{role}', 'Tatuco\UserController@revokeRole');
+            Route::post('roles/assigned/permission', 'Tatuco\RoleController@assignedPermission');
+            Route::get('roles/revoke/permission/{role}/{permission}', 'Tatuco\RoleController@revokePermission');
         });
     /**
      * grupo de rutas controladas por los roles sysadmin y admin
@@ -57,9 +57,9 @@ Route::group([
             'middleware' => ['role:SYSADMIN','role:ADMIN']
         ], function () {
 
-            Route::resource('users', 'UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
-            Route::resource('roles', 'RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
-            Route::resource('permissions', 'PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+            Route::resource('users', 'Tatuco\UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+            Route::resource('roles', 'Tatuco\RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+            Route::resource('permissions', 'Tatuco\PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
         });
 
 

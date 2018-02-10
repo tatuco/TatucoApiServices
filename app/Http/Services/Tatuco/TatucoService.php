@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Tatuco;
 
 use App\Http\Requests\UserRequest;
 use App\Models\User;

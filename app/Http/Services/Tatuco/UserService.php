@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Services;
+namespace App\Http\Services\Tatuco;
 
 use App\Models\User;
 use Exception;
@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Events\Dispatcher;
 use App\Events\UserWasCreated;
+use App\Http\Services\Tatuco\TatucoService;
 
 
 

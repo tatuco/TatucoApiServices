@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tatuco;
 
-use App\Http\Controllers\TatucoController;
-use App\Http\Requests\UserRequest;
-use App\Http\Services\UserService;
+
+use App\Http\Controllers\Tatuco\TatucoController;
+use App\Http\Services\Tatuco\UserService;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;

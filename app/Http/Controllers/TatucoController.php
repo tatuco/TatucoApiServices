@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Http\Services\UserService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,51 +12,18 @@ use Optimus\Bruno\EloquentBuilderTrait;
 use Optimus\Bruno\LaravelController;
 use Tymon\JWTAuth\JWTAuth;
 
-class TatucoController extends LaravelController
+
+class TatucoController
 {
-    use EloquentBuilderTrait;
-    public $model;
-    public $object;
-    public $name;
-    public $namePlural;
-    public $paginate = false;
-    public $limit = null;
-    public $data = [];
-    public $request;
+    //use EloquentBuilderTrait;
+
     public $service;
     /**
      * listar registros del objeto
      */
-    public function __construct(UserService $userService)
-    {
-        $this->service = $userService;
-
-    }
     public function index(Request $request)
     {
-        $resourceOptions = $this->parseResourceOptions();
-        $query = $this->model::query();
-        $this->applyResourceOptions($query, $resourceOptions);
-        $items = $query->get();
-
-        // Parse the data using Optimus\Architect
-        $parsedData = $this->parseData($items, $resourceOptions, $this->namePlural);
-
-        /**
-         *  igualamos la data a lo que devuelva la funcion compact de php
-         * la cual convierte en una matriz clave = valor
-         * y retornamos la data en formato json
-        */
-        //$this->data = compact($varname);
-
-        if(!$this->response($parsedData))
-        {
-            return response()->json([
-                        "msj"=> "no hay registros"
-            ], 200);
-        }
-
-        return response()->json($this->response($parsedData), 200);
+        return $this->service->index();
     }
     /**
      * consultar un registro por id, el objeto sera el que se traiga el metodo find() que busca una registro
@@ -66,27 +32,7 @@ class TatucoController extends LaravelController
      */
     public function show($id)
     {
-        try{
-             $resourceOptions = $this->parseResourceOptions();
-
-             $this->data = $this->model::find($id);
-
-            if(!$this->data)
-            {
-                return response()->json(['msj'=>$this->name. ' no existe'], 404);
-            }
-            $parsedData = $this->parseData($this->data, $resourceOptions, $this->name);
-
-            Log::info('Encontrado');
-            return response()->json([
-                'status'=>true,
-                'msj'=> $this->name. ' Encontrado',
-                $this->name=> $this->response($parsedData),
-                ], 200);
-        }catch (\Exception $e){
-            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
-            return response()->json(["msj"=>"Error de servidor"], 500);
-        }
+        return $this->service->show($id);
     }
     /**
      * guardar todo el request, pasamos la data al metodo create() del modelo
@@ -94,22 +40,7 @@ class TatucoController extends LaravelController
      */
     public function _store()
     {
-        try{
-            if (count($this->data) == 0)
-            {
-                $this->data = $this->request->all();
-            }
-            $this->object = $this->model->create($this->data);
-
-            Log::info('Guardado');
-            return response()->json(['status'=>true,
-                                    'msj'=>$this->name. ' Guardado',
-                                    $this->name=>$this->object], 200);
-
-        }catch (\Exception $e){
-            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
-            return response()->json(["msj"=>"Error de servidor"], 500);
-        }
+        return $this->service->store();
     }
     /**
      * actualizar un registro recibiendo el id buscandolo con el metodo findOrFail()
@@ -165,10 +96,8 @@ class TatucoController extends LaravelController
     }
 
     public function prueba(){
-        $user = \JWTAuth::parseToken()->authenticate();
-        if($user->is('SYSADMIN')){
-            echo "eres sysadmin";
-            Log::info("sysadmin logeado");
-        }
+        return $this->service->prueba();
     }
+
+
 }

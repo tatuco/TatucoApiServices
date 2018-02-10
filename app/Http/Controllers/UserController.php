@@ -13,6 +13,7 @@ use Mockery\Exception;
 use Optimus\Bruno\EloquentBuilderTrait;
 use Optimus\Bruno\LaravelController;
 
+
 class UserController extends TatucoController
 {
    // use RegistersUsers;
@@ -24,21 +25,14 @@ class UserController extends TatucoController
 
     public function __construct()
     {
-        $this->name = 'user';
-        $this->model = new User();
-        $this->namePlural = 'users';
-       // $this->service = new UserService();
-        //$this->paginate = 10;
+
+        $this->service = new UserService();
+
     }
 
     public function store(Request $request)
     {
-
-        $pass = bcrypt($request->json(['password']));
-        $request->merge(['password' => $pass]);
-        $this->request = $request;
-
-        return $this->_store();
+        return $this->service->store($request);
     }
 
     public function update($id, Request $request)
@@ -99,10 +93,4 @@ class UserController extends TatucoController
 
     }
 
-    public function create(){
-        return response()->json([
-            'name' => 'string',
-            'email' => 'string'
-            ],200);
-    }
 }

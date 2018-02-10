@@ -179,6 +179,8 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
       //  Bican\Roles\RolesServiceProvider::class,
         Caffeinated\Shinobi\ShinobiServiceProvider::class,
+       // Barryvdh\DomPDF\ServiceProvider::class,
+        //App\Utils\Reports\src\ServiceProvider::class,
 
     ],
 
@@ -231,6 +233,8 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Shinobi' => Caffeinated\Shinobi\Facades\Shinobi::class,
+       // 'Report' => App\Utils\Reports\src\ServiceProvider::class,
+      //  'PDF'   => Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
 ];

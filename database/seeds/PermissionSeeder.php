@@ -12,7 +12,7 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         DB::table('permissions')->insert([
-            'name'=> 'Index.users',
+            'name'=> 'index users',
             'slug'=>'index.users',
             'description' => 'listar usuarios',
             'created_at'=> new DateTime,
@@ -21,6 +21,51 @@ class PermissionSeeder extends Seeder
 
         DB::table('permission_role')->insert([
             'permission_id'=> 1,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
+        DB::table('permissions')->insert([
+            'name'=> 'update user',
+            'slug'=>'update.users',
+            'description' => 'actualizar usuario',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
+        DB::table('permission_role')->insert([
+            'permission_id'=> 2,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
+        DB::table('permissions')->insert([
+            'name'=> 'show user',
+            'slug'=>'show.users',
+            'description' => 'mostrar un usuario',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
+        DB::table('permission_role')->insert([
+            'permission_id'=> 3,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
+        DB::table('permissions')->insert([
+            'name'=> 'delete user',
+            'slug'=>'delete.users',
+            'description' => 'borrar usuario',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
+        DB::table('permission_role')->insert([
+            'permission_id'=> 4,
             'role_id'=> 1,
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime

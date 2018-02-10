@@ -5,8 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
-class SysAdminMiddleware
+class RoleMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,17 +16,18 @@ class SysAdminMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $role)
     {
-      /*  $user = Auth::user();
+        $user = JWTAuth::parseToken()->authenticate();
+
        // Log::info($user);
-        if($user->level() == 1){
+        if($user->isRole($role)){
             return $next($request);
-         //   Log::info("sysadmin logeado");
+            Log::info("Usuario con rol ".$role." Accediendo...");
         }else
         return response()->json([
                 'msj' => "Permiso Denegado.",
-                'description' => "No tienes Acceso de Sysadmin"
-            ], 401);*/
+                'description' => "No tienes Acceso de ".$role
+            ], 401);
     }
 }

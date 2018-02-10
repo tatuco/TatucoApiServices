@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Tatuco;
 
 use App\Http\Controllers\Tatuco\TatucoController;
 use App\Http\Services\Tatuco\UserService;
-use App\Models\User;
+use App\Models\Tatuco\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -25,9 +25,7 @@ class UserController extends TatucoController
 
     public function __construct()
     {
-
         $this->service = new UserService();
-
     }
 
     public function store(Request $request)
@@ -37,12 +35,7 @@ class UserController extends TatucoController
 
     public function update($id, Request $request)
     {
-        if($request->json(['password'])){
-           $pass = bcrypt($request->json(['password']));
-           $request->merge(['password' => $pass]);
-        }
-        $this->request = $request;
-        return $this->_update($id);
+      return $this->service->update($id, $request)
     }
     public function assignedRole(Request $request)
     {
@@ -90,6 +83,11 @@ class UserController extends TatucoController
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json(["msj"=>"Error de servidor"], 500);
         }
+
+    }
+
+    public function pruebaModel(){
+        return (new User)->getModelTatuco();
 
     }
 

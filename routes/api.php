@@ -16,8 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::resource('users', 'Tatuco\UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
 Route::get('/prueba', 'Tatuco\UserController@prueba');
+Route::get('/model', 'Tatuco\UserController@pruebaModel');
 Route::get('/home', 'Tatuco\ApiController@api');
 Route::post('/login', ['uses' => 'Tatuco\AuthController@login', 'as' => 'login']);
 Route::post('/logout', ['middleware' => ['jwt.auth'], 'uses' => 'Tatuco\AuthController@logout', 'as' => 'logout']);
@@ -57,7 +58,7 @@ Route::group([
             'middleware' => ['role:SYSADMIN','role:ADMIN']
         ], function () {
 
-            Route::resource('users', 'Tatuco\UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+            
             Route::resource('roles', 'Tatuco\RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
             Route::resource('permissions', 'Tatuco\PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
         });

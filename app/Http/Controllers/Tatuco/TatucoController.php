@@ -47,25 +47,7 @@ class TatucoController
      */
     public function _update($id)
     {
-        try {
-            $this->object = $this->model->findOrFail($id);
-
-            if (count($this->data) == 0) {
-                $this->data = $this->request->all();
-            }
-
-            $this->object->update($this->data);
-
-            return response()->json([
-                'error'=>false,
-                'msj'=>$this->name. ' Modificado',
-                $this->name=>$this->object
-            ], 200);
-
-        }catch(\Exception $e){
-            Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
-            return response()->json(["msj"=>"Error de servidor"], 500);
-        }
+       return $this->service->update($id);
     }
 
     /**
@@ -92,6 +74,10 @@ class TatucoController
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json(["msj"=>"Error de servidor"], 500);
         }
+    }
+
+    public function create(){
+        return $this->service->create(); 
     }
 
     public function prueba(){

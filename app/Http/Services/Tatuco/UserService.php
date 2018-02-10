@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Services\Tatuco;
 
-use App\Models\User;
+use App\Models\Tatuco\User;
 use Exception;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Database\DatabaseManager;
@@ -26,6 +26,16 @@ class UserService extends TatucoService
         $this->request = $request;
 
         return $this->_store($request);
+    }
+    public function update($id, $request)
+    {
+           if($request->json(['password'])){
+           $pass = bcrypt($request->json(['password']));
+           $request->merge(['password' => $pass]);
+        }
+        $this->request = $request;
+
+        return $this->_update($id, $request);
     }
    
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Tatuco\Controller;
 
 class HomeController extends Controller
 {

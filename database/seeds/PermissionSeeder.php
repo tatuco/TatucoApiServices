@@ -64,6 +64,21 @@ class PermissionSeeder extends Seeder
             'updated_at'=> new DateTime
         ]);
 
+          DB::table('permissions')->insert([
+            'name'=> 'backup bd',
+            'slug'=>'run.backup',
+            'description' => 'correr respaldo de base de datos',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
+           DB::table('permission_role')->insert([
+            'permission_id'=> 5,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
         DB::table('permission_role')->insert([
             'permission_id'=> 4,
             'role_id'=> 1,

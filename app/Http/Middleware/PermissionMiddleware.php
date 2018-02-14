@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\User;
+use Caffeinated\Shinobi\Models\Role;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -19,6 +20,31 @@ class PermissionMiddleware
      */
     public function handle($request, Closure $next, $permissions)
     {
+        if (1==1) {
+            if (!JWTAuth::parseToken()->authenticate()->can($permissions)) {
+             //   if ($request->ajax()) {
+                    return response()->json([
+                        'status'=> false,
+                        'message' => 'no tienes permiso para => '.$permissions
+                    ],403);
+               // }
+            }
+        } else {
+            $guest = Role::whereSlug('guest')->first();
+
+            if ($guest) {
+                if (!$guest->can($permissions)) {
+                    if ($request->ajax()) {
+                        return response('Unauthorized.', 403);
+                    }
+
+                    abort(403, 'Unauthorized action.');
+                }
+            }
+        }
+
+        return $next($request);
+        /*
        echo $user = JWTAuth::parseToken()->authenticate();
 
         $roles = DB::table('roles as r')
@@ -30,9 +56,10 @@ class PermissionMiddleware
         echo "query".$roles;
        //echo $user = User::find(1)->roles();
         if ($user) {
-            if($roles>0){
+            if($roles){
                 foreach ($roles as $role) {
-                    $r = Role::whereSlug($role->slug)
+                    $r = Role::whereSlug($role->slug);
+                    echo $role;
                         if(!$r->can($permissions)){
                             return response()->json([
                                 "msj" => "No autorizado",
@@ -49,7 +76,7 @@ class PermissionMiddleware
 
                 abort(403, 'Unauthorized action.');
             }*/
-        } else {
+       /* } else {
             $guest = Role::whereSlug('guest')->first();
 
             if ($guest) {
@@ -62,6 +89,6 @@ class PermissionMiddleware
                 }
             }
         }
-
+*/
     }
 }

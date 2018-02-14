@@ -11,7 +11,7 @@ return [
     | API, giving you convenient access to each back-end using the same
     | syntax for each one. Here you may set the default queue driver.
     |
-    | Supported: "sync", "database", "beanstalkd", "sqs", "redis", "null"
+    | Supported: "sync- sin tiempo de espera", "database-almacenado hasta que les digamos", "beanstalkd", "sqs", "redis-en tiempo real", "null"
     |
     */
 

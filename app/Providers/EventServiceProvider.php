@@ -15,7 +15,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\Event' => [
             'App\Listeners\EventListener',
-        ],
+        ],'user_request.created' => [
+            'App\Listeners\UserListener@created',
+        ]
     ];
 
     /**

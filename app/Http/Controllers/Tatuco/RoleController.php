@@ -8,30 +8,23 @@ use Caffeinated\Shinobi\Models\Role;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Services\Tatuco\RoleService;
 
 class RoleController extends TatucoController
 {
-    public function __construct()
+     public function __construct()
     {
-        $this->name = 'role';
-        $this->model = new Role();
-        $this->namePlural = 'roles';
-        $this->paginate = 10;
+        $this->service = new RoleService();
     }
 
     public function store(Request $request)
     {
-
-        $this->request = $request;
-
-        return $this->_store();
+        return $this->service->store($request);
     }
 
     public function update($id, Request $request)
     {
-
-        $this->request = $request;
-        return $this->_update($id);
+      return $this->service->update($id, $request);
     }
 
     public function assignedPermission(Request $request)
@@ -45,7 +38,7 @@ class RoleController extends TatucoController
                 Log::info('Permiso Asignado');
                 return response()->json([
                     'status' => true,
-                    'msj' => 'Permiso Asignado '
+                    'message' => 'Permiso Asignado '
                 ], 200);
             }
         }catch (Exception $e){

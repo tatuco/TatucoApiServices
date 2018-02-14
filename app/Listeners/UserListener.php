@@ -12,11 +12,13 @@ class UserListener
      *
      * @return void
      */
+
+    
     public function __construct()
     {
         //
     }
-
+    
     /**
      * Handle the event.
      *

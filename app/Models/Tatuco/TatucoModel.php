@@ -10,15 +10,15 @@ class TatucoModel extends Model
     public $_model;
     public $_primaryKey;
     public $_timestamps;
-    public $create;
+    public $_create;
 
-    public function __construct($_model, $_primaryKey, $_table, $_timestamps,$create)
+    public function __construct($_model, $_primaryKey, $_table, $_timestamps,$_create)
     {
         $this->_model = $_model;
         $this->_primaryKey = $_primaryKey;
         $this->_table = $_table;
         $this->_timestamps = $_timestamps;
-        $this->create = $create;
+        $this->_create = $_create;
     }
 
    /* protected $table = $this->_table;
@@ -35,13 +35,13 @@ class TatucoModel extends Model
         return $this->_model;
     }
 
-    public function create(){
+    public function createJson(){
         
-        return response()->json(array_merge($createTatuco = [
+        return response()->json(array_merge($create = [
         /*'id' => 'integer',
         'created_at' => 'date',
         'updated_at' => 'date'*/
-        ], $this->create));
+        ], $this->_create));
     }
    
 }

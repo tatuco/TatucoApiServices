@@ -7,6 +7,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Models\Tatuco\User;
+use Illuminate\Support\Facades\Log;
+
 
 class UserJob implements ShouldQueue
 {
@@ -29,6 +32,15 @@ class UserJob implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $users = User::all();
+
+        foreach ($users as $user){
+            $sysadmin = 1;
+
+            if($user->id == $sysadmin){
+                Log::info("Hay un sysadmin");
+                echo "hay un sysadmin";
+            }
+        }
     }
 }

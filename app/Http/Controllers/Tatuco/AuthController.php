@@ -16,9 +16,9 @@ class AuthController extends BaseController
         $credenciales = $request->only('email','password');
 
         try {
-            if(!$token = \JWTAuth::attempt($credenciales)){
+           if(!$token = \JWTAuth::attempt($credenciales)){
                 return response()->json([
-                    'msj' => 'Datos Incorrectos. '
+                    'message' => 'Datos Incorrectos. '
                 ], 401);
 
             }
@@ -26,7 +26,7 @@ class AuthController extends BaseController
         }catch (JWTException $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json([
-                'msj' => 'Error al intentar crear el token. Intente de nuevo'
+                'message' => 'Error al intentar crear el token. Intente de nuevo'
             ], 500);
         }
 

@@ -7,7 +7,9 @@ use App\Http\Controllers\Tatuco\Controller;
 use App\Reports\src\ReportMedia\ExcelReport;
 use App\Reports\src\ReportMedia\PdfReport;
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Reports\src\ReportMedia\CSVReport;
 
 class ReportService
 {
@@ -56,53 +58,73 @@ class ReportService
 
     }
     // metodo para generar reporte pa todo el mundo solo crear la ruta y enviar a ModeloController@report
-    public function report(Request $request, $model, $namePlural, $columns)
+    public function report(Request $request, $model, $namePlural, $columns, $_title = null)
     {
 
         $fromDate = $request->get('from_date');
         $toDate = $request->get('to_date');
         $sortBy = $request->get('sort');
         $format = $request->get('format');
+        $icon = '../storage/app/public/tatuco.png';
+        $user = JWTAuth::parseToken()->authenticate();
+        $foot = 'Usuario : '.$user->name.'  Email: '.$user->email;
+        $date = Carbon::now()->format('d-m-Y');
+        $title = $_title?:"Reporte de ".$namePlural;
 
-        $title = "Reporte de ".$namePlural;
+        if(isset($fromDate) && isset($toDate) && isset($sortBy)){
+            $meta = [
+                'Desde ' => $fromDate,
+                'Hasta ' => $toDate,
+                'Por ' => $sortBy
+            ];
+        }else{
+            $meta = [];
+        }
 
-        $meta = [
-            'Desde: ' => $fromDate,
-            'Hasta: ' => $toDate,
-            'Por: ' => $sortBy
-        ];
-       /* $pila = array("naranja", "plátano");
-        array_push($pila, "manzana", "arándano");
-        print_r($pila);*/
+        /* $pila = array("naranja", "plátano");
+         array_push($pila, "manzana", "arándano");
+         print_r($pila);*/
         $_columns = array();
+
+        if(!$columns){
+            return response()->json([
+                'status' => false,
+                'message' => 'Columnas del Reporte No especificadas en el Controller',
+                'sintaxis' => '$this->clumns = ["Title" => "campo"]'
+            ], 500);
+        }
         foreach($columns as $column){
             array_push($_columns, $column);
         }
-        $queryBuilder = $model->select($_columns);
 
+        if(count($meta)>0){
+            $queryBuilder = $model->select($_columns)
+                ->whereBetween('created_at', [$fromDate, $toDate])
+                ->orderBy($sortBy)
+                ->get();
+        }else{
+            $queryBuilder = $model->select($_columns);
+        }
 
-     //   $columns = $_columns;
-       /* return response()->json([
-            'model' => $queryBuilder,
-            'formato' => $format,
-            'columnas' => $columns
-
-        ]);*/
         switch ($format?:'pdf') {
             case 'xls':
-                 return (new ExcelReport())->of($title, $meta, $queryBuilder, $columns)
-                ->limit(20)
-                ->download('/');
+                return (new ExcelReport())->of($title, $meta, $queryBuilder, $columns)
+                    ->limit(20)
+                    ->download('/');
                 break;
             case 'pdf':
-                return (new PdfReport())->of($title, $meta, $queryBuilder, $columns)
-                    ->setCss(['.head-content' => 'border-width: 1px'])
-                ->stream();
+                return (new PdfReport())->of($title, $meta, $queryBuilder, $columns, $icon, $foot, $date)
+                    ->setCss(['.head-content' => 'border-width: 0px'])
+                    ->stream();
+                break;
+            case 'csv':
+                return (new CSVReport())->of($title, $meta, $queryBuilder, $columns)
+                    ->download('/');
                 break;
             default:
-                return (new PdfReport())->of($title, $meta, $queryBuilder, $columns)
-                    ->setCss(['.head-content' => 'border-width: 1px'])
-                ->stream();
+                return (new PdfReport())->of($title, $meta, $queryBuilder, $columns, $icon, $foot, $name)
+                    ->setCss(['.head-content' => 'border-width: 0px'])
+                    ->stream();
                 break;
         }
 

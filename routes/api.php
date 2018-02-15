@@ -54,7 +54,7 @@ Route::group(['middleware' => ['role:sysadmin']], function (){
     /**
      * grupo de rutas controladas por los roles sysadmin y admin
      */
-Route::group(['middleware' => ['role:ADMIN']], function () {
+Route::group(['middleware' => ['role:admin']], function () {
             /**
              * rutas del rol administrador
              */

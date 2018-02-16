@@ -62,7 +62,7 @@ class TatucoService extends LaravelController
      * @return \Illuminate\Http\JsonResponse
      * consultar un registro por medio de un id
      */
-    public function show($dato, $campo, $status, $account)
+    public function show($campo, $dato, $status, $account)
     {
         try{
             $resourceOptions = $this->parseResourceOptions();
@@ -104,7 +104,7 @@ class TatucoService extends LaravelController
 
             if (count($this->data) == 0)
             {
-               $this->data = $request->all();
+                $this->data = $request->all();
             }
 
             Log::info('Guardado');
@@ -135,7 +135,7 @@ class TatucoService extends LaravelController
      */
     public function _update($id,Request $request)
     {
-         try {
+        try {
             $this->object = $this->model->findOrFail($id);
 
             if (count($this->data) == 0) {
@@ -161,27 +161,27 @@ class TatucoService extends LaravelController
      * @return \Illuminate\Http\JsonResponse
      * metodo para eliminar un registro
      */
-    public function destroy($id)
+    public function destroy($campo, $dato, $status, $account)
     {
-         try {
-             $this->object = $this->model->findOrFail($id);
-
-             if (!$this->object) {
-                 return response()->json([
-                     'message' => $this->name . ' no existe'
-                 ], 404);
-             }
-             $this->object->use_sta_fk = 0;
-             //$this->object->disable = true;
-             //$this->object->delete();
-             $this->object->update();
-             return response()->json([
-                 'status' => true,
-                 'message' => $this->name . ' Eliminado'
-             ], 206);
+        try {
+            $this->object = $this->findTatuco($campo, $dato, $status, $account);
+            if (!$this->object) {
+                return response()->json([
+                    'message' => $this->name . ' no existe'
+                ], 404);
+            }
+            //iguala el estatus a 0 = eliminado
+            $this->object->use_sta_fk = 0;
+            //$this->object->disable = true;
+            //$this->object->delete();
+            $this->object->update();
+            return response()->json([
+                'status' => true,
+                'message' => $this->name . ' Eliminado'
+            ], 206);
         }catch (\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
-            return response()->json(["message"=>"Error de servidor"], 500);
+            return response()->json(["message"=>"Error de servidor",], 500);
         }
     }
 
@@ -191,41 +191,41 @@ class TatucoService extends LaravelController
      * llamando al comando schedule:run de laravel
      * para que ejecute las tareas pendientes
      */
-   public function backup()
-   {
+    public function backup()
+    {
 
-      try {
+        try {
             if((\Artisan::call('schedule:run', array()))==0){
                 return response()->json([
                     'status' => true,
                     'message' => 'Backup Existoso'
                 ],200);
             }else{
-               return response()->json([
+                return response()->json([
                     'status' => false,
                     'message' => 'Backup Fallido'
-                ],500); 
+                ],500);
             }
         }catch (\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json(["message"=>"Error de servidor"], 500);
         }
-   }
+    }
 
-     /**
+    /**
      * listar registros del objeto
      */
-   public function prueba(Request $request){
-         return response()->json([
-             'message' => 'registros de usuarios',
-             'model' => $this->name?:null,
-             'request' => $request
-         ],200);
-   }
+    public function prueba(Request $request){
+        return response()->json([
+            'message' => 'registros de usuarios',
+            'model' => $this->name?:null,
+            'request' => $request
+        ],200);
+    }
 
-   public function createJson(){
+    public function createJson(){
         return $this->model->createJson();
-   }
+    }
 
     /**
      * @param $id
@@ -233,13 +233,13 @@ class TatucoService extends LaravelController
      * metodo para verificar si un registro existe o no
      * con el fin de devolver una respues de no encontrado
      */
-   public function findByItem($id)
-   {
-       if(!$this->model->find($id))
-           return false;
-       else
-           return true;
-   }
+    public function findByItem($id)
+    {
+        if(!$this->model->find($id))
+            return false;
+        else
+            return true;
+    }
 
     /**
      * @param null $item
@@ -247,23 +247,23 @@ class TatucoService extends LaravelController
      * respuesta de no encontrado en formato json
      * puede recibir un string para escificar que cosa no se encontro
      */
-   public function notFound($item = null)
-   {
-       return response()->json([
-           'message'=> $item.' no Encontrado'
-       ],404);
-   }
+    public function notFound($item = null)
+    {
+        return response()->json([
+            'message'=> $item.' no Encontrado'
+        ],404);
+    }
 
-   public function report(Request $request, $columns)
-   {
+    public function report(Request $request, $columns)
+    {
         return (new ReportService)->report($request, $this->model, $this->namePlural, $columns);
-       //return response()->json(['modelo' => $this->model->all()]);
-   }
+        //return response()->json(['modelo' => $this->model->all()]);
+    }
 
     public function findTatuco($column, $dato, $status, $account,$columns = ['*'])
     {
-       $user = \JWTAuth::parseToken()->authenticate();
-
+        $user = \JWTAuth::parseToken()->authenticate();
+        echo $dato;
         return $this->model->where($column, '=', $dato)
             ->where($status,'=',1)
             ->where($account,'=',$user->use_acc_fk)

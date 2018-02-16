@@ -11,6 +11,9 @@ class TatucoController extends Controller
     public $tatucoService;
     public $reportService;
     public $columns;
+    public $campo;
+    public $status;
+    public $account;
 
     public function __construct(TatucoService $tatucoService, ReportService $reportService){
         $this->tatucoService = $tatucoService;
@@ -24,7 +27,7 @@ class TatucoController extends Controller
 
     public function show($id)
     {
-        return $this->service->show($id);
+        return $this->service->show($id, $this->campo, $this->status, $this->account);
     }
 
     public function _store()

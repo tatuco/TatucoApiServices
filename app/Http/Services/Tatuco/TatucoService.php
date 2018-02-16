@@ -25,7 +25,7 @@ class TatucoService extends LaravelController
     public $limit = null;
     public $data = [];
     public $request;
-
+    public $dato;
     public $reportService;
 
     /** token de sysadmin eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hcGkvbG9naW4iLCJpYXQiOjE1MTg0NzM5MjYsImV4cCI6MTUxODQ3NzUyNiwibmJmIjoxNTE4NDczOTI2LCJqdGkiOiIwQ2RBZ1JPS3N6ZFR1ZU1DIn0.4X9UtMLM5EwrLG_aSZ_3QEZ4oK0IZgbnMwoTpQUmmd0
@@ -62,12 +62,12 @@ class TatucoService extends LaravelController
      * @return \Illuminate\Http\JsonResponse
      * consultar un registro por medio de un id
      */
-    public function show($id)
+    public function show($dato, $campo, $status, $account)
     {
         try{
             $resourceOptions = $this->parseResourceOptions();
 
-            $this->data = $this->model::find($id);
+            $this->data = $this->findTatuco($campo, $dato, $status, $account);
 
             if(!$this->data)
             {
@@ -79,11 +79,17 @@ class TatucoService extends LaravelController
             return response()->json([
                 'status'=>true,
                 'message'=> $this->name. ' Encontrado',
-                $this->name=> $parsedData,
+                $this->name => $parsedData,
             ], 200);
         }catch (\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}, codigo del peo: {$e->getCode()}");
-            return response()->json(["message"=>"Error de servidor"], 500);
+            return response()->json([
+                "message"=>"Error de servidor",
+                'exception' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'code' => $e->getCode()
+            ], 500);
         }
     }
 
@@ -105,13 +111,18 @@ class TatucoService extends LaravelController
             if($this->object = $this->model::create($this->data)){
                 return response()->json(['status'=>true,
                     'message'=>$this->name. ' Guardado',
-                    $this->name=>$this->object], 201);
+                    $this->name=>$this->object],
+                    201);
             }
 
         }catch (\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json(['status'=>false,
-                'message'=> 'Error al Intentar Guardar '.$this->name
+                'message'=> 'Error al Intentar Guardar '.$this->name,
+                'exception' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'code' => $e->getCode()
             ], 500);
         }
     }
@@ -136,7 +147,7 @@ class TatucoService extends LaravelController
             return response()->json([
                 'startus'=>true,
                 'message'=>$this->name. ' Modificado',
-                $this->name=>$this->object
+                $this->name=> $this->object
             ], 200);
 
         }catch(\Exception $e){
@@ -160,8 +171,8 @@ class TatucoService extends LaravelController
                      'message' => $this->name . ' no existe'
                  ], 404);
              }
-             $this->object->enable = false;
-             $this->object->disable = true;
+             $this->object->use_sta_fk = 0;
+             //$this->object->disable = true;
              //$this->object->delete();
              $this->object->update();
              return response()->json([
@@ -248,5 +259,15 @@ class TatucoService extends LaravelController
         return (new ReportService)->report($request, $this->model, $this->namePlural, $columns);
        //return response()->json(['modelo' => $this->model->all()]);
    }
+
+    public function findTatuco($column, $dato, $status, $account,$columns = ['*'])
+    {
+       $user = \JWTAuth::parseToken()->authenticate();
+
+        return $this->model->where($column, '=', $dato)
+            ->where($status,'=',1)
+            ->where($account,'=',$user->use_acc_fk)
+            ->first($columns);
+    }
 
 }

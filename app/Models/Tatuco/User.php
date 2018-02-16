@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+   public $timestamps = false;
     use Notifiable, ShinobiTrait;
 
    /* public function __construct(){
@@ -27,7 +28,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        //mapeo de columnas de la base de datos
+        'use_dni', 'use_nam', 'use_lna', 'email', 'password', 'use_dac', 'use_dau' ,'use_sta_fk', 'use_acc_fk',
     ];
 
     /**
@@ -47,12 +49,12 @@ class User extends Authenticatable
     {
        $this->notify(new ResetPassword($token));
     }*/
-    public static function boot()
+  /*  public static function boot()
     {
         parent::boot();
 
         static::creating(function($user){
             $user->name = $user->name.'usando evento creating';
         });
-    }
+    }*/
 }

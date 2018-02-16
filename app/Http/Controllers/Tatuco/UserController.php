@@ -22,6 +22,10 @@ class UserController extends TatucoController
     {
         $this->service = new UserService();
         $this->roleService = $roleService;
+        //campo por el cual va a buscar el find
+        $this->campo = 'id';
+        $this->status = 'use_sta_fk';
+        $this->account = 'use_acc_fk';
     }
 
     public function store(Request $request)

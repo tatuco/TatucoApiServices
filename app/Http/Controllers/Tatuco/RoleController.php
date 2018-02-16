@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Tatuco;
 
 
-use Caffeinated\Shinobi\Models\Permission;
-use Caffeinated\Shinobi\Models\Role;
+use App\Acl\Src\Permission;
+use App\Acl\Src\Models\Role;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

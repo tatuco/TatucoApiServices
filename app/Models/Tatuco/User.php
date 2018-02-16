@@ -4,7 +4,7 @@ namespace App\Models\Tatuco;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Caffeinated\Shinobi\Traits\ShinobiTrait;
+use App\Acl\Src\Traits\ShinobiTrait;
 //use App\Notifications\ResetPassword;
 use Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;

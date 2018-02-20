@@ -27,7 +27,7 @@ class TatucoController extends Controller
 
     public function show($dato)
     {
-        return $this->service->show($this->campo, $dato, $this->status, $this->account);
+        return $this->service->show($this->campo, $dato, $this->status);
     }
 
     public function _store()
@@ -35,14 +35,14 @@ class TatucoController extends Controller
         return $this->service->store();
     }
 
-    public function _update($id)
+    public function _update($dato)
     {
-       return $this->service->update($id);
+       return $this->service->update($this->campo, $dato, $this->status);
     }
 
     public function destroy($dato)
     {
-        return $this->service->destroy($this->campo, $dato, $this->status, $this->account);
+        return $this->service->destroy($this->campo, $dato, $this->status);
     }
 
     public function create(){

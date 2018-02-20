@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Tatuco;
 
-use App\Acl\Src\Models\Permission;
+use Caffeinated\Shinobi\Models\Permission;
 
 class PermissionService extends TatucoService
 {

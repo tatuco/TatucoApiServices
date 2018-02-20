@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Tatuco;
 
-use App\Acl\Src\Models\Role;
+use Caffeinated\Shinobi\Models\Role;
 
 class RoleService extends TatucoService
 {

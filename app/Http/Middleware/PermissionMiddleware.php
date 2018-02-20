@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\User;
-use App\Acl\Src\Models\Role;
+use Caffeinated\Shinobi\Models\Role;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use DB;

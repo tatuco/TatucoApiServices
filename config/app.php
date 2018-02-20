@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
@@ -178,7 +179,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
       //  Bican\Roles\RolesServiceProvider::class,
-        App\Acl\Src\ShinobiServiceProvider::class,
+        Caffeinated\Shinobi\ShinobiServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         App\Reports\src\ServiceProvider::class,
 
@@ -232,9 +233,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
-        'Shinobi' =>  App\Acl\Src\ShinobiServiceProvider::class,
         'Report' => App\Reports\src\ServiceProvider::class,
         'PDF'   => Barryvdh\DomPDF\ServiceProvider::class,
+        'Shinobi' => Caffeinated\Shinobi\Facades\Shinobi::class,
     ],
 
 ];

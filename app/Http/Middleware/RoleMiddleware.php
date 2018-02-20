@@ -19,7 +19,8 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, $role)
     {
-       // $user = JWTAuth::parseToken()->authenticate();
+      // echo $user = JWTAuth::parseToken()->authenticate();
+
         if (!JWTAuth::parseToken()->authenticate()->isRole($role)) {
 
               //if ($request->ajax()) {

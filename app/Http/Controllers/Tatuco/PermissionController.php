@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Tatuco;
 
-
-use App\Acl\Src\Models\Permission;
+use Caffeinated\Shinobi\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Services\Tatuco\PermissionService;
 

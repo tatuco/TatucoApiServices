@@ -22,14 +22,14 @@ class UserService extends TatucoService
 
         return $this->_store($request);
     }
-    public function update($id,Request $request)
+    public function update($campo, $dato, $status, Request $request)
     {
          if($request->json(['password'])){
            $pass = bcrypt($request->json(['password']));
            $request->merge(['password' => $pass]);
         }
 
-        return $this->_update($id, $request);
+        return $this->_update($campo, $dato, $status, $request);
     }
 
     public function assignedRole($idUser, $idRole)

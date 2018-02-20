@@ -12,35 +12,43 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => "sysadmin",
-            'email' => 'sysadmin@tatuco.com',
+            'use_dni' => "12345678",
+            'use_nam' => "sysadmin",
+            'email' => 'sysadmin@zippyttech.com',
             'password' => bcrypt('123456'),
-            'created_at'=> new DateTime,
-            'updated_at'=> new DateTime
+            'use_dac'=> new DateTime,
+            'use_sta'=> true,
+            'acc_id'=> 1
         ]);
 
         DB::table('users')->insert([
-            'name' => "admin",
-            'email' => 'admin@tatuco.com',
+            'use_dni' => "12345679",
+            'use_nam' => "admin",
+            'email' => 'admin@zippyttech.com',
             'password' => bcrypt('123456'),
-            'created_at'=> new DateTime,
-            'updated_at'=> new DateTime
+            'use_dac'=> new DateTime,
+            'use_sta'=> true,
+            'acc_id'=> 1
         ]);
 
         DB::table('users')->insert([
-            'name' => "operador",
-            'email' => 'operador@tatuco.com',
+            'use_dni' => "12345670",
+            'use_nam' => "operador",
+            'email' => 'operador@zippyttech.com',
             'password' => bcrypt('123456'),
-            'created_at'=> new DateTime,
-            'updated_at'=> new DateTime
+            'use_dac'=> new DateTime,
+            'use_sta'=> true,
+            'acc_id'=> 1
         ]);
 
           DB::table('users')->insert([
-            'name' => "guest",
-            'email' => 'guest@tatuco.com',
-            'password' => bcrypt('123456'),
-            'created_at'=> new DateTime,
-            'updated_at'=> new DateTime
+              'use_dni' => "12345671",
+              'use_nam' => "guest",
+              'email' => 'guest@zippyttech.com',
+              'password' => bcrypt('123456'),
+              'use_dac'=> new DateTime,
+              'use_sta'=> true,
+              'acc_id'=> 1
         ]);
     }
 }

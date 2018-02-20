@@ -62,12 +62,12 @@ class TatucoService extends LaravelController
      * @return \Illuminate\Http\JsonResponse
      * consultar un registro por medio de un id
      */
-    public function show($campo, $dato, $status, $account)
+    public function show($campo, $dato, $status)
     {
         try{
             $resourceOptions = $this->parseResourceOptions();
 
-            $this->data = $this->findTatuco($campo, $dato, $status, $account);
+            $this->data = $this->findTatuco($campo, $dato, $status);
 
             if(!$this->data)
             {
@@ -133,11 +133,11 @@ class TatucoService extends LaravelController
      * @return \Illuminate\Http\JsonResponse
      * acualizar registro
      */
-    public function _update($id,Request $request)
+    public function _update($campo, $dato, $status, Request $request)
     {
         try {
-            $this->object = $this->model->findOrFail($id);
-
+            //llamo al filtro por account y id
+            $this->object = $this->findTatuco($campo, $dato, $status);
             if (count($this->data) == 0) {
                 $this->data = $request->all();
             }
@@ -152,7 +152,13 @@ class TatucoService extends LaravelController
 
         }catch(\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
-            return response()->json(["message"=>"Error de servidor"], 500);
+            return response()->json(['status'=>false,
+                'message'=> 'Error al Intentar Guardar '.$this->name,
+                'exception' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'code' => $e->getCode()
+            ], 500);
         }
     }
 
@@ -161,17 +167,19 @@ class TatucoService extends LaravelController
      * @return \Illuminate\Http\JsonResponse
      * metodo para eliminar un registro
      */
-    public function destroy($campo, $dato, $status, $account)
+    public function destroy($campo, $dato, $status)
     {
         try {
-            $this->object = $this->findTatuco($campo, $dato, $status, $account);
+            //llamo al filtro por account y id
+            $this->object = $this->findTatuco($campo, $dato, $status);
+            //si el objeto es nulo, no existe la busqueda
             if (!$this->object) {
                 return response()->json([
                     'message' => $this->name . ' no existe'
                 ], 404);
             }
-            //iguala el estatus a 0 = eliminado
-            $this->object->use_sta_fk = 0;
+            //iguala el estatus a false = eliminado
+            $this->object->$status = false;
             //$this->object->disable = true;
             //$this->object->delete();
             $this->object->update();
@@ -250,7 +258,7 @@ class TatucoService extends LaravelController
     public function notFound($item = null)
     {
         return response()->json([
-            'message'=> $item.' no Encontrado'
+            'message'=> $item.' No Encontrado'
         ],404);
     }
 
@@ -260,13 +268,16 @@ class TatucoService extends LaravelController
         //return response()->json(['modelo' => $this->model->all()]);
     }
 
-    public function findTatuco($column, $dato, $status, $account,$columns = ['*'])
+
+    //filtro por acccount y status = 1: activo
+    public function findTatuco($column, $dato, $status,$columns = ['*'])
     {
+        //consulto al que esta logueado
+        $account = "acc_id";
         $user = \JWTAuth::parseToken()->authenticate();
-        echo $dato;
         return $this->model->where($column, '=', $dato)
-            ->where($status,'=',1)
-            ->where($account,'=',$user->use_acc_fk)
+            ->where($status,'=',true)
+            ->where($account,'=',$user->acc_id)
             ->first($columns);
     }
 

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::resource('users', 'Tatuco\UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -42,7 +42,7 @@ Route::group([
      * grupo de rutas controladas por el rol sysadmin
      */
 Route::group(['middleware' => ['role:sysadmin']], function (){
-
+    Route::resource('users', 'Tatuco\UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
     Route::resource('roles', 'Tatuco\RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
     Route::resource('permissions', 'Tatuco\PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
     Route::get('/backup', 'Tatuco\TatucoController@backup')->middleware('permission:run.backup');
@@ -50,6 +50,7 @@ Route::group(['middleware' => ['role:sysadmin']], function (){
     Route::get('users/role/{user}/{role}', 'Tatuco\UserController@revokeRole');
     Route::post('roles/permission', 'Tatuco\RoleController@assignedPermission');
     Route::get('roles/permission/{role}/{permission}', 'Tatuco\RoleController@revokePermission');
+
 });
     /**
      * grupo de rutas controladas por los roles sysadmin y admin

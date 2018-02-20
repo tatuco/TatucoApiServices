@@ -6,7 +6,10 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "barryvdh/laravel-dompdf": "^0.8.1",
+        "caffeinated/shinobi": "^3.1",
         "fideloper/proxy": "~3.3",
+        "jimmyjs/laravel-report-generator": "^1.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "nesbot/carbon": "^1.22",
@@ -14,9 +17,7 @@
         "optimus/bruno": "~3.0",
         "optimus/genie": "~2.0",
         "optimus/heimdal": "~1.0",
-        "tymon/jwt-auth": "^0.5.12",
-        "jimmyjs/laravel-report-generator": "^1.0",
-        "barryvdh/laravel-dompdf": "^0.8.1"
+        "tymon/jwt-auth": "^0.5.12"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

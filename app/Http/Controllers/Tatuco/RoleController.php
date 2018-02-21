@@ -16,17 +16,20 @@ class RoleController extends TatucoController
     {
         $this->service = new RoleService();
     }
-
+    //funcion para guardar roles
     public function store(Request $request)
     {
+        //llama al roleService
         return $this->service->store($request);
     }
-
+    //funcion para actualizar roles
     public function update($id, Request $request)
     {
+        //llama al roleService
       return $this->service->update($id, $request);
     }
 
+    //funcion para asignar roles
     public function assignedPermission(Request $request)
     {
         try{
@@ -46,6 +49,8 @@ class RoleController extends TatucoController
             return response()->json(["msj"=>"Error de servidor"], 500);
         }
     }
+
+    //quitar un rol
     public function revokePermission($idRole, $idPermission)
     {
         try{

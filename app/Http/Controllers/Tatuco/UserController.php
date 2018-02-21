@@ -23,19 +23,24 @@ class UserController extends TatucoController
         $this->service = new UserService();
         $this->roleService = $roleService;
         //campo por el cual va a buscar el find
-        $this->campo = 'id';
+        $this->campo = 'use_dni';
         $this->status = 'use_sta';
     }
 
+    //funcion que guarda los registros
     public function store(Request $request)
     {
+        //llama a userService
         return $this->service->store($request);
     }
 
+    //funcion que actualiza los registros
     public function update($dato, Request $request)
     {
+        //llama a userService
       return $this->service->update($this->campo, $dato, $this->status, $request);
     }
+    //funcion assigna roles
     public function assignedRole(Request $request)
     {
         $idUser = $request->json(['user']);
@@ -50,6 +55,7 @@ class UserController extends TatucoController
         return $this->service->assignedRole($idUser, $idRole);
     }
 
+    //funcion que quita los roles
     public function revokeRole(Request $request, $idUser, $idRole)
     {
 

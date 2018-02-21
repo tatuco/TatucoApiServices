@@ -28,29 +28,69 @@ class ReportController extends Controller
         $this->reportService = $reportService;
     }
 
+    public function reqDate($request)
+    {
+        $var = 0;
+
+        //assigno la fecha de inicio, fin y el orden del request
+        $fromDate = $request->get('from_date');
+        $toDate = $request->get('to_date');
+        $sortBy = $request->get('sort');
+
+        if(isset($fromDate) && isset($toDate) && isset($sortBy)){
+            //igualo 1 cuando todos los datos existen
+           $var=1;
+        }
+        if (isset($fromDate) && isset($toDate) && !isset($sortBy)){
+            //igualo 2 cuando solo viene fecha de inicio y fin
+             $var=2;
+        }
+        if (isset($fromDate) && !isset($toDate) && isset($sortBy)){
+            //igualo 3 cuando solo viene fecha de inicio y fin
+            $var=3;
+        }
+        if (!isset($fromDate) && isset($toDate) && isset($sortBy)){
+            //igualo 4 cuando solo viene fecha de inicio y fin
+            $var=4;
+        }
+        if (!isset($fromDate) && !isset($toDate) || !isset($sortBy)){
+            //igualo 2 cuando solo viene fecha de inicio y fin
+            $var=5;
+        }
+        return $var;
+    }
+
+    //reportes de usuarios
     public function users(Request $request)
     {
+        //setea las nombres con las columnas en la bd
         $columns = [
-            'ID' => 'id',
-            'Nombre' => 'name',
+            'DNI' => 'use_dni',
+            'Nombres y Apellidos' => 'use_nam',
             'Email' => 'email',
-            'Fecha Ingreso' => 'created_at', 
-            'Fecha Actualizado' => 'updated_at'
+            'Nombre de Usuario' => 'use_nic',
+            'Fecha Ingreso' => 'created_at',
+            'Fecha Actualizado' => 'updated_at',
         ];
+        $model='App\Models\Tatuco\User';
 
-        $query = DB::table('users')->select('id','name','email','created_at','updated_at')
+        /*$getDate=reqDate($request);
+        echo $getDate;*/
+
+        $query = DB::table('users')->select('use_dni','use_nam', 'email', 'use_nic', 'created_at', 'updated_at')
         ->get();
 
-        return $this->reportService->prep($request,'Reporte de los Usuarios', $columns, $query);
+        return $this->reportService->report($request,$model, 'usuarios', $columns, 'Reporte de Usuarios');
     }
 
     public function prepPrueba(Request $request, User $user)
     {
         $columns = [
-            'ID' => 'id',
-            'Nombre' => 'name',
+            'DNI' => 'use_dni',
+            'Nombres y Apellidos' => 'use_nam',
             'Email' => 'email',
-            'Fecha Ingreso' => 'created_at', 
+            'Nombre de Usuario' => 'use_nic',
+            'Fecha Ingreso' => 'created_at',
             'Fecha Actualizado' => 'updated_at'
         ];
 
@@ -75,7 +115,7 @@ class ReportController extends Controller
         ];
 
         // Do some querying..
-        $queryBuilder = (new User)->select(['name', 'email', 'created_at'])
+        $queryBuilder = (new User)->select(['use_dni','use_nam', 'email', 'use_nic', 'created_at', 'updated_at'])
             ->whereBetween('created_at', [$fromDate, $toDate])
             ->orderBy($sortBy)
             ->get();
@@ -83,9 +123,12 @@ class ReportController extends Controller
 
         // Set Column to be displayed
         $columns = [
-            'Name' => 'name',
+            'DNI' => 'use_dni',
+            'Nombres y Apellidos' => 'use_nam',
             'Email' => 'email',
-            'Registered At' => 'created_at', // if no column_name specified, this will automatically seach for snake_case of column name (will be registered_at) column from query result
+            'Nombre de Usuario' => 'use_nic',
+            'Fecha Ingreso' => 'created_at',
+            'Fecha Actualizado' => 'updated_at' // if no column_name specified, this will automatically seach for snake_case of column name (will be registered_at) column from query result
 
             // 'Status' => function($result) { // You can do if statement or any action do you want inside this closure
             //      return ($result->balance > 100000) ? 'Rich Man' : 'Normal Guy';

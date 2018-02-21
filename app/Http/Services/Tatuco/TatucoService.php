@@ -39,14 +39,23 @@ class TatucoService extends LaravelController
     {
         $this->reportService = $reportService;
     }
-    public function index(){
+
+    //funcion que consulta y muestra todos los datos, depende del estatus y el account
+    public function index($status){
         $resourceOptions = $this->parseResourceOptions();
-        $query = $this->model::query();//->where('enable',true)->where('disable',false);
+
+        //consulto los datos del que esta loggueado
+        $user = \JWTAuth::parseToken()->authenticate();
+        //assigno a account el dato del campo
+        $account = 'acc_id';
+        //realizo el query con el where: status=true y account=id de la cuenta registrada
+        $query = $this->model::query()->where($status,true)->where($account,$user->acc_id);
         $this->applyResourceOptions($query, $resourceOptions);
         $items = $query->get();
 
         $parsedData = $this->parseData($items, $resourceOptions, $this->namePlural);
 
+        //si el query no devuelve nada
         if(!$this->response($parsedData))
         {
             return response()->json([
@@ -54,6 +63,7 @@ class TatucoService extends LaravelController
             ], 200);
         }
 
+        //si consigue algo devuelve los datos
         return response()->json($parsedData, 200);
     }
 
@@ -66,9 +76,9 @@ class TatucoService extends LaravelController
     {
         try{
             $resourceOptions = $this->parseResourceOptions();
-
+            //llamo al findtatuco que filtra por cuenta y status
             $this->data = $this->findTatuco($campo, $dato, $status);
-
+            //si no consigue nada delvuelve 404
             if(!$this->data)
             {
                 return response()->json(['message'=>$this->name. ' no existe'], 404);
@@ -76,11 +86,13 @@ class TatucoService extends LaravelController
             $parsedData = $this->parseData($this->data, $resourceOptions, $this->name);
 
             Log::info('Encontrado');
+            //si consigue, arma el json
             return response()->json([
                 'status'=>true,
                 'message'=> $this->name. ' Encontrado',
                 $this->name => $parsedData,
             ], 200);
+            //si ocurre alguna exception la devuelve
         }catch (\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}, codigo del peo: {$e->getCode()}");
             return response()->json([
@@ -101,11 +113,10 @@ class TatucoService extends LaravelController
     public function _store(Request $request)
     {
         try{
-
-            if (count($this->data) == 0)
-            {
+            if (count($this->data) == 0) {
                 $this->data = $request->all();
             }
+            //si todo es correcto, guarda los datos
 
             Log::info('Guardado');
             if($this->object = $this->model::create($this->data)){
@@ -115,6 +126,7 @@ class TatucoService extends LaravelController
                     201);
             }
 
+            //si salta una exception la procesa
         }catch (\Exception $e){
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json(['status'=>false,
@@ -270,11 +282,11 @@ class TatucoService extends LaravelController
 
 
     //filtro por acccount y status = 1: activo
-    public function findTatuco($column, $dato, $status,$columns = ['*'])
+    public function findTatuco($column, $dato, $status, $columns = ['*'])
     {
         //consulto al que esta logueado
-        $account = "acc_id";
         $user = \JWTAuth::parseToken()->authenticate();
+        $account = 'acc_id';
         return $this->model->where($column, '=', $dato)
             ->where($status,'=',true)
             ->where($account,'=',$user->acc_id)

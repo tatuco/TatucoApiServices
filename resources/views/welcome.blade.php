@@ -79,15 +79,11 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Gasolinera
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Marico</a>
-                    <a href="https://laracasts.com">El</a>
-                    <a href="https://laravel-news.com">Que</a>
-                    <a href="https://forge.laravel.com">Lo</a>
-                    <a href="https://github.com/laravel/laravel">Lea</a>
+
                 </div>
             </div>
         </div>

@@ -81,11 +81,12 @@ Route::group(['middleware' => ['role:sysadmin']], function () {
     Route::resource('products', 'Inventary\ProductController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
     Route::resource('suppliers', 'Inventary\SupplierController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
     Route::resource('taxs', 'Inventary\TaxController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-});
+
+});//cierre de rutas del rol sysadmin
 
 Route::group(['prefix' => 'reports'], function () {
     
-        Route::get('users','Tatuco\UserController@report');
+        Route::get('users','Tatuco\ReportController@users');
         Route::get('clients','Inventary\ClientController@report');
         Route::get('brands','Inventary\BrandController@report');
         Route::get('categories','Inventary\CategoryController@report');
@@ -97,7 +98,7 @@ Route::group(['prefix' => 'reports'], function () {
         Route::get('taxs','Inventary\TaxController@report');
 
 
-});
+});//cierre de rutas de reporte
 
 
-});
+});//cierre de rutas que necesitan token (loguearse)

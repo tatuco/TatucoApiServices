@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-   public $timestamps = false;
+   public $timestamps = true;
     use Notifiable, ShinobiTrait;
 
    /* public function __construct(){
@@ -29,7 +29,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         //mapeo de columnas de la base de datos
-        'use_dni', 'use_nam', 'use_lna', 'email', 'password', 'use_dac', 'use_dau' ,'use_sta', 'acc_id'
+        'use_dni', 'use_nam', 'use_lna', 'use_nic', 'email', 'password', 'use_sta', 'acc_id'
     ];
 
     /**

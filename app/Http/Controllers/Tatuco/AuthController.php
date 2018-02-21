@@ -11,11 +11,16 @@ use Illuminate\Routing\Controller as BaseController;
 
 class AuthController extends BaseController
 {
+    /**
+     * funcion de inicio de sesion
+     */
     public function login(Request $request)
     {
-        $credenciales = $request->only('email','password');
+        //credenciales del login, aqui se cambian por los que esten en la bd
+        $credenciales = $request->only('use_nic','password');
 
         try {
+            //si no se inicia la sesion correctamente
            if(!$token = \JWTAuth::attempt($credenciales)){
                 return response()->json([
                     'message' => 'Datos Incorrectos. '
@@ -24,6 +29,7 @@ class AuthController extends BaseController
             }
             Log::info("Token Creado");
         }catch (JWTException $e){
+            //devuelve el error
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}");
             return response()->json([
                 'message' => 'Error al intentar crear el token. Intente de nuevo'
@@ -37,15 +43,20 @@ class AuthController extends BaseController
         ], 200);
     }
 
+    /**
+     * funcion de cerrar sesion
+     */
     public function logout()
     {
         try{
+            //si el cierre de sesion se procesa envia el mensaje
             \JWTAuth::invalidate(\JWTAuth::getToken());
             return response()->json([
                 'msj' => 'success logout exit.'
             ], 200);
             Log::info("Token invalidado satisfactoriamente");
         }catch (JWTException $e){
+            //devuelve el error si lo hay
             Log::critical("Error, archivo del peo: {$e->getFile()}, linea del peo: {$e->getLine()}, el peo: {$e->getMessage()}, codigo del peo: {$e->getStatusCode()}");
             return response()->json([
                 'msj' => 'Error al intentar olvidar token'
@@ -55,6 +66,9 @@ class AuthController extends BaseController
 
     }
 
+    /**
+     * funcion de validacion
+     */
     public function validate()
     {
         try{

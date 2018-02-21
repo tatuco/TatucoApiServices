@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Tatuco;
 
+use App\Models\Tatuco\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Tatuco\Controller;
 use App\Reports\src\ReportMedia\ExcelReport;
@@ -80,14 +81,11 @@ class ReportService
         }else{
             $meta = [];
         }
-
-        /* $pila = array("naranja", "plátano");
-         array_push($pila, "manzana", "arándano");
-         print_r($pila);*/
         $_columns = array();
 
         if(!$columns){
             return response()->json([
+                'column' => $columns,
                 'status' => false,
                 'message' => 'Columnas del Reporte No especificadas en el Controller',
                 'sintaxis' => '$this->clumns = ["Title" => "campo"]'
@@ -103,7 +101,7 @@ class ReportService
                 ->orderBy($sortBy)
                 ->get();
         }else{
-            $queryBuilder = $model->select($_columns);
+            $queryBuilder = $model::select($_columns);
         }
 
         switch ($format?:'pdf') {

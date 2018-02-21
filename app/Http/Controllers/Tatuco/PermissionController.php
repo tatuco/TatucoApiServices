@@ -14,14 +14,17 @@ class PermissionController extends TatucoController
     {
         $this->service = new PermissionService();
     }
-
+    //guarda datos
     public function store(Request $request)
     {
+        //envia datos a permissionService
         return $this->service->store($request);
     }
 
+    //actualiza datos
     public function update($id, Request $request)
     {
-      return $this->service->update($id, $request);
+        //envia datos a permissionService
+        return $this->service->update($id, $request);
     }
 }

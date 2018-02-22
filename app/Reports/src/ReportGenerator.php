@@ -29,14 +29,15 @@ class ReportGenerator
         $this->applyFlush = (bool) (new Config)->get('report-generator.flush', true);
     }
 
-    public function of($title, Array $meta = [], $query, Array $columns, $icon = null, $foot = null, $date = null)
+    public function of($title, Array $meta = [], $query, Array $columns, $icon,  $acc_nam, $acc_ruc, $foot)
     {
         $this->headers = [
             'title' => $title,
             'meta'  => $meta,
             'icon' => $icon?:'icono',
-            'foot' => $foot?:'',
-            'date' => $date?:''
+            'acc_nam' => $acc_nam?:'empresa',
+            'acc_ruc' => $acc_ruc?:'ruc',
+            'foot' => $foot?:''
         ];
 
         $this->query = $query;

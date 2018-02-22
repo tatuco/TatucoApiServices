@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('123456'),
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime,
-            'use_sta'=> true,
+            'use_act'=> true,
             'acc_id'=> 1
         ]);
 
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('123456'),
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime,
-            'use_sta'=> true,
+            'use_act'=> true,
             'acc_id'=> 1
         ]);
 
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('123456'),
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime,
-            'use_sta'=> true,
+            'use_act'=> true,
             'acc_id'=> 1
         ]);
 
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
               'password' => bcrypt('123456'),
               'created_at'=> new DateTime,
               'updated_at'=> new DateTime,
-              'use_sta'=> true,
+              'use_act'=> true,
               'acc_id'=> 1
         ]);
 
@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('123456'),
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime,
-            'use_sta'=> true,
+            'use_act'=> true,
             'acc_id'=> 2
         ]);
     }

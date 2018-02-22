@@ -182,6 +182,7 @@ return [
         Caffeinated\Shinobi\ShinobiServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         App\Reports\src\ServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
 
     ],
 

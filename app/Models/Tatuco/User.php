@@ -2,6 +2,7 @@
 
 namespace App\Models\Tatuco;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Caffeinated\Shinobi\Traits\ShinobiTrait;
@@ -29,7 +30,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         //mapeo de columnas de la base de datos
-        'use_dni', 'use_nam', 'use_lna', 'use_nic', 'email', 'password', 'use_sta', 'acc_id'
+        'use_dni', 'use_nam', 'use_lna', 'use_nic', 'email', 'password', 'use_act', 'acc_id'
     ];
 
     /**

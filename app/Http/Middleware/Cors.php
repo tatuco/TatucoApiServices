@@ -28,14 +28,14 @@ class Cors
             header('Authorization: Bearer ' . $token);
         }
 
-        $trusted_domains = ["http://localhost:4200", "http://localhost:8000"];
+        $trusted_domains = ["*"];
         if(isset($request->server()['HTTP_ORIGIN'])) {
             $origin = $request->server()['HTTP_ORIGIN'];
             if (in_array($origin, $trusted_domains)) {
 
-                header('Access-Control-Allow-Origin: ' . $origin);
-                // header('Access-Control-Allow-Headers: Origin, Content-Type, Content-Type, X-XSRF-TOKEN');
-                header('Access-Control-Allow-Headers: *');
+                header('Access-Control-Allow-Origin: ' . $origin?:'*');
+                header('Access-Control-Allow-Headers: Origin, Content-Type, Content-Type, X-XSRF-TOKEN');
+              //  header('Access-Control-Allow-Headers: *');
 
 
 

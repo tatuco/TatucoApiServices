@@ -7,14 +7,14 @@
 			font-family: Arial, Helvetica, sans-serif;
 		}
 		.wrapper {
-			margin: 0 -20px 0;
+			margin: 0 -25px 0;
 			padding: 0 15px;
 		}
 		.middle {
 			text-align: center;
 		}
 		.title {
-			font-size: 35px;
+			font-size: 22px;
 		}
 		.pb-10 {
 			padding-bottom: 10px;
@@ -23,7 +23,7 @@
 			padding-bottom: 5px;
 		}
 		.head-content{
-			padding-bottom: 4px;
+			padding-bottom: 2px;
 			border-style: none none ridge none;
 			font-size: 18px;
 		}
@@ -62,7 +62,7 @@
 			font-size: 18px;
 		}
 		.date{
-			font-size: 10px;
+			font-size: 12px;
 		}
 		@foreach ($styles as $style)
         {{ $style['selector'] }} {
@@ -96,17 +96,21 @@ if ($showTotalColumns != []) {
 	<div class="pb-5">
 	<img style="width: 50px;height: 50px"  src=<?php echo '"'.$headers['icon'].'"'; ?>>
 		<div class="middle pb-10 title">
+			{{ $headers['acc_nam'] }}
+			<br/>
+			{{ $headers['acc_ruc'] }}
+			<br/>
 			{{ $headers['title'] }}
 		</div>
 		<div class="head-content">
-			<div class="date">Fecha: {{$headers['date']}}</div>
+			<div class="date">Fecha:</div>
 			<table cellpadding="0" cellspacing="0" width="100%" border="0">
                 <?php $metaCtr = 0; ?>
 				@foreach($headers['meta'] as $name => $value)
 					@if ($metaCtr % 2 == 0)
 						<tr>
 							@endif
-							<td><span style="color:#808080;">{{ $name }}</span>: {{ ucwords($value) }}</td>
+							<td><div class="date">{{ $name }}: {{ ucwords($value) }}</div></td>
 							@if ($metaCtr % 2 == 1)
 						</tr>
 					@endif
@@ -115,6 +119,7 @@ if ($showTotalColumns != []) {
 			</table>
 		</div>
 	</div>
+	<br/>
 	<div class="content">
 		<table width="100%" class="table">
 			<thead>

@@ -22,9 +22,9 @@ class UserController extends TatucoController
     {
         $this->service = new UserService();
         $this->roleService = $roleService;
-        //campo por el cual va a buscar el find
-        $this->campo = 'use_dni';
-        $this->status = 'use_sta';
+        //campo por el cual va a buscar el findTatuco
+        $this->campo = 'use_dni';//llave primaria
+        $this->status = 'use_act';//campo de activo o eliminado
     }
 
     //funcion que guarda los registros

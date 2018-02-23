@@ -15,6 +15,29 @@ class RoleService extends TatucoService
     }
 
     //funcion que guarda registros
+    public function index()
+    {
+        $resourceOptions = $this->parseResourceOptions();
+        //realizo el query
+        $query = $this->model::query();
+        $this->applyResourceOptions($query, $resourceOptions);
+        $items = $query->get();
+
+        $parsedData = $this->parseData($items, $resourceOptions, $this->namePlural);
+
+        //si el query no devuelve nada
+        if(!$this->response($parsedData))
+        {
+            return response()->json([
+                "message"=> "no hay registros"
+            ], 200);
+        }
+
+        //si consigue algo devuelve los datos
+        return response()->json($parsedData, 200);
+    }
+
+    //funcion que guarda registros
     public function store($request)
     {
         //llama a tatucoService

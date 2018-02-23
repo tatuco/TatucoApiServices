@@ -41,7 +41,7 @@ class TatucoService extends LaravelController
     }
 
     //funcion que consulta y muestra todos los datos, depende del estatus y el account
-    public function index($status){
+    public function _index($status){
         $resourceOptions = $this->parseResourceOptions();
 
         //consulto los datos del que esta loggueado
@@ -179,7 +179,7 @@ class TatucoService extends LaravelController
      * @return \Illuminate\Http\JsonResponse
      * metodo para eliminar un registro
      */
-    public function destroy($campo, $dato, $status)
+    public function _destroy($campo, $dato, $status)
     {
         try {
             //llamo al filtro por account y id

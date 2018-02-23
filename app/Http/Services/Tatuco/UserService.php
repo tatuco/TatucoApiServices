@@ -15,21 +15,38 @@ class UserService extends TatucoService
         $this->namePlural = 'users';
     }
 
+    //funcion que guarda registros
+    public function index($status)
+    {
+        //llama a tatucoService
+        return $this->_index($status);
+    }
+
+    //guardar
     public function store(Request $request){
         $pass = bcrypt($request->json(['password']));
         $request->merge(['password' => $pass]);
 
-
+        //llamo a tatucoservice
         return $this->_store($request);
     }
+
+    //actualizar
     public function update($campo, $dato, $status, Request $request)
     {
          if($request->json(['password'])){
            $pass = bcrypt($request->json(['password']));
            $request->merge(['password' => $pass]);
         }
-
+        //llamo a tatuco service
         return $this->_update($campo, $dato, $status, $request);
+    }
+
+    //eliminar
+    public function destroy($campo, $dato, $status)
+    {
+        //llama a tatucoService
+        return $this->_destroy($campo, $dato, $status);
     }
 
     public function assignedRole($idUser, $idRole)

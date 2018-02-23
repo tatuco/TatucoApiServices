@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<style>
 		body {
-			font-family: Arial, Helvetica, sans-serif;
+			font-family: "italic";
 		}
 		.wrapper {
 			margin: 0 -25px 0;
@@ -12,6 +12,7 @@
 		}
 		.middle {
 			text-align: center;
+			margin-top: -100px;
 		}
 		.title {
 			font-size: 22px;
@@ -54,7 +55,12 @@
 			color: #fff;
 		}
 		.luis {
-			font-size: 9px;
+			font-size: 12px;
+			position:fixed;
+			left:0px;
+			bottom:0px;
+			height:30px;
+			width:100%;
 		}
 		.tatuco{
 			padding-bottom: 100%;
@@ -63,6 +69,9 @@
 		}
 		.date{
 			font-size: 12px;
+		}
+		.logo{
+			text-align: right;
 		}
 		@foreach ($styles as $style)
         {{ $style['selector'] }} {
@@ -73,12 +82,13 @@
 </head>
 <body>
 <?php
-$ctr = 1;
+use Carbon\Carbon;$ctr = 1;
 $no = 1;
 $currentGroupByData = [];
 $total = [];
 $isOnSameGroup = true;
 $grandTotalSkip = 1;
+$espacio = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 foreach ($showTotalColumns as $column => $type) {
     $total[$column] = 0;
 }
@@ -94,37 +104,37 @@ if ($showTotalColumns != []) {
 ?>
 <div class="wrapper">
 	<div class="pb-5">
-	<img style="width: 50px;height: 50px"  src=<?php echo '"'.$headers['icon'].'"'; ?>>
+		<div class="logo"><img width="150" height="100" src="<?php echo $headers['icon']; ?>" >
+		</div>
 		<div class="middle pb-10 title">
 			{{ $headers['acc_nam'] }}
 			<br/>
 			{{ $headers['acc_ruc'] }}
-			<br/>
-			{{ $headers['title'] }}
+			<p>{{ $headers['title'] }}</p>
 		</div>
-		<div class="head-content">
-			<div class="date">Fecha:</div>
-			<table cellpadding="0" cellspacing="0" width="100%" border="0">
-                <?php $metaCtr = 0; ?>
-				@foreach($headers['meta'] as $name => $value)
-					@if ($metaCtr % 2 == 0)
-						<tr>
-							@endif
-							<td><div class="date">{{ $name }}: {{ ucwords($value) }}</div></td>
-							@if ($metaCtr % 2 == 1)
-						</tr>
-					@endif
-                    <?php $metaCtr++; ?>
-				@endforeach
-			</table>
-		</div>
+
+			<div class="head-content">
+				@if( $headers['meta'] )
+				<div class="date">Fecha:</div>
+				@endif
+					<?php $metaCtr = 0; ?>
+					@foreach($headers['meta'] as $name => $value)
+						@if ($metaCtr % 2 == 0)
+								@endif
+								<div class="date"><?php echo $espacio;?>{{$name }}: {{ ucwords($value) }}</div>
+								@if ($metaCtr % 2 == 1)
+						@endif
+						<?php $metaCtr++; ?>
+					@endforeach
+			</div>
+
 	</div>
 	<br/>
 	<div class="content">
 		<table width="100%" class="table">
 			<thead>
 			<tr>
-				<th class="left">No</th>
+				<th class="left">Nro</th>
 				@foreach ($columns as $colName => $colData)
 					@if (array_key_exists($colName, $editColumns))
 						<th class="{{ isset($editColumns[$colName]['class']) ? $editColumns[$colName]['class'] : 'left' }}">{{ $colName }}</th>
@@ -246,7 +256,7 @@ if ($showTotalColumns != []) {
 			@endif
 		</table>
 	</div>
-	<div class="luis">{{$headers['foot']}}</div>
+	<div class="luis"><b>Usuario: </b>{{$headers['foot']}} <b>Fecha:</b> <?php echo Carbon::now()->format('l j F Y H:i');?></div>
 </div>
 
 

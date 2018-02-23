@@ -16,11 +16,13 @@ class TypeVehicles extends Migration
         Schema::create('type_vehicles', function (Blueprint $table) {
             $table->increments('tve_id');
             $table->string('tve_des', 250);
+            $table->string('use_nic', 15)->unsigned()->index();
             $table->timestamps();
             $table->boolean('tve_act')->default(true);
             $table->integer('acc_id')->unsigned()->index();
 
             //fk
+            $table->foreign('use_nic')->references('use_nic')->on('users')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('acc_id')->references('acc_id')->on('accounts')->onUpdate('cascade')->onDelete('restrict');
         });
     }

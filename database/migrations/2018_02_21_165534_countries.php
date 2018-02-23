@@ -15,12 +15,17 @@ class Countries extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->increments('cou_id');
+            $table->string('use_nic', 15)->unsigned()->index();
             $table->string('cou_nom', 50);
             $table->string('cou_uho', 15);
             $table->boolean('cou_act')->default(true);
             $table->timestamps();
+
+            //fk
+            $table->foreign('use_nic')->references('use_nic')->on('users')->onUpdate('cascade')->onDelete('restrict');
         });
     }
+
 
     /**
      * Reverse the migrations.

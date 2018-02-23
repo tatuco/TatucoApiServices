@@ -38,9 +38,7 @@ class ReportController extends Controller
             'DNI' => 'use_dni',
             'Nombres y Apellidos' => 'use_nam',
             'Email' => 'email',
-            'Nombre de Usuario' => 'use_nic',
-            'Fecha Ingreso' => 'created_at',
-            'Fecha Actualizado' => 'updated_at',
+            'Nombre de Usuario' => 'use_nic'
         ];
         //setea el nombre del modelo
         $model='App\Models\Tatuco\User';
@@ -48,6 +46,33 @@ class ReportController extends Controller
         $namePlural='Usuarios';
         $title='Reporte de Usuarios';
         $row = 'use_act';
+        //$query = DB::table('users')->select('use_dni','use_nam', 'email', 'use_nic', 'created_at', 'updated_at')->get();
+
+        //envio los datos a la super funcion report()
+        return $this->reportService->report($request,$model, $namePlural, $columns, $title, $row);
+    }
+
+    //reportes de usuarios
+    public function accounts(Request $request)
+    {
+        //Parametros a pasar al service
+
+        //setea las nombres con las columnas en la bd
+        $columns = [
+            'Nombre' => 'acc_nom',
+            'RUC' => 'acc_ruc',
+            'Descripcion' => 'acc_des',
+            'Direccion' => 'acc_dir',
+            'Correo' => 'acc_mai',
+            'Telefono' => 'acc_pho',
+            'Web' => 'acc_web'
+        ];
+        //setea el nombre del modelo
+        $model='App\Models\Gasolinera\Account';
+        //setea el nombre plural
+        $namePlural='Empresas';
+        $title='Reporte de Empresas';
+        $row = 'acc_act';
         //$query = DB::table('users')->select('use_dni','use_nam', 'email', 'use_nic', 'created_at', 'updated_at')->get();
 
         //envio los datos a la super funcion report()

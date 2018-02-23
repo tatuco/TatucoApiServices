@@ -2,20 +2,22 @@
 
 namespace App\Http\Services\Tatuco;
 
-use Accounts;
+use App\Models\Gasolinera\Account;
 use App\Models\Tatuco\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Tatuco\Controller;
 use App\Reports\src\ReportMedia\ExcelReport;
 use App\Reports\src\ReportMedia\PdfReport;
+use Optimus\Bruno\LaravelController;
+use Optimus\Bruno\EloquentBuilderTrait;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Reports\src\ReportMedia\CSVReport;
 
-class ReportService
+class ReportService extends LaravelController
 {
-    
+    use EloquentBuilderTrait;
     // PdfReport Aliases
     // use PdfReport;
 
@@ -32,17 +34,20 @@ class ReportService
         $sortBy = $request->get('sort');//orden
         $format = $request->get('format');//formato
         $user = JWTAuth::parseToken()->authenticate();//saber si esta logueado
-        $cuenta = Account::find($user->acc_id);
-        $icon = $cuenta->acc_ima;//imagen de la empresa
-        $acc_nam = $cuenta->acc_nam;//nombre de la empresa
-        echo $acc_nam;
+        //selecciono los datos de la cuenta para pasar al reporte
+        $cuenta = Account::select('*')
+        ->where('acc_id',$user->acc_id)
+        ->first();
+        $icon = '/var/www/html/laravel/gasolinera-api/storage/app/public/zippy.jpg';//imagen de la empresa
+        $acc_nam = $cuenta->acc_nom;//nombre de la empresa
         $acc_ruc = $cuenta->acc_ruc;//ruc de la empresa
-        $foot = 'Usuario : '.$user->name.'  Email: '.$user->email;//datos que saldran en el reporte al final
+        $foot = $user->use_nic;//datos que saldran en el reporte al final
         $date = Carbon::now()->format('d-m-Y');//fecha actual
         $title = $_title?:"Reporte de ".$namePlural;//por si no viene titulo
         $queryBuilder = 0;
         $reqDate = $this->reqDate($fromDate, $toDate, $sortBy);//recibo la respuesta de la funcion
         $_columns = array();
+        $now = Carbon::now()->format('Y-m-d');
         //si no vienen las columnas devuevlo el error
         if(!$columns){
             return response()->json([
@@ -63,13 +68,13 @@ class ReportService
                 $meta = [
                     'Desde ' => $fromDate,
                     'Hasta ' => $toDate,
-                    'Por ' => $sortBy
+                    'Ordenado Por ' => $sortBy
                 ];
-            //armo el query
+                //armo el query
                 $queryBuilder = $model::select($_columns)
                     ->whereBetween('created_at', [$fromDate, $toDate])//por rango de fechas
-                    ->where($row,true)//where si esta activo o eliminado
-                    ->where('acc_id',$user->acc_id)//account logueado
+                    ->where($row, true)//where si esta activo o eliminado
+                    ->where('acc_id', $user->acc_id)//account logueado
                     ->orderBy($sortBy)//orden de la consulta
                     ->get();
                 break;
@@ -81,29 +86,31 @@ class ReportService
                 //armo el query
                 $queryBuilder = $model::select($_columns)
                     ->whereBetween('created_at', [$fromDate, $toDate])//por rango de fechas
-                    ->where($row,true)//where si esta activo o eliminado
-                    ->where('acc_id',$user->acc_id)//account logueado
+                    ->where($row, true)//where si esta activo o eliminado
+                    ->where('acc_id', $user->acc_id)//account logueado
                     ->get();
                 break;
             case 3://si en el param va fecha inicio y orden
                 $meta = [
                     'Del ' => $fromDate,
-                    'Por ' => $sortBy
+                    'Ordenado Por ' => $sortBy
                 ];
                 //armo el query
                 $queryBuilder = $model::select($_columns)
                     ->whereDate('created_at', $fromDate)//por fecha especifica
-                    ->where($row,true)//where si esta activo o eliminado
-                    ->where('acc_id',$user->acc_id)//account logueado
+                    ->where($row, true)//where si esta activo o eliminado
+                    ->where('acc_id', $user->acc_id)//account logueado
                     ->orderBy($sortBy);//orden del reporte
 
                 break;
             case 4://si en el param va solo fecha fin no se pasa nada al query
-                $meta = [];
+                $meta = [
+                    'Del ' => $now
+                ];
                 //armo el query
                 $queryBuilder = $model::select($_columns)
-                    ->where($row,true)//where si esta activo o eliminado
-                    ->where('acc_id',$user->acc_id);//account logueado
+                    ->where($row, true)//where si esta activo o eliminado
+                    ->where('acc_id', $user->acc_id);//account logueado
                 break;
             case 5://si en el param va fecha inicio mas nada
                 $meta = [
@@ -112,29 +119,47 @@ class ReportService
                 //armo el query
                 $queryBuilder = $model::select($_columns)
                     ->whereDate('created_at', $fromDate)//por fecha especifica
-                    ->where($row,true)//where si esta activo o eliminado
-                    ->where('acc_id',$user->acc_id);//account logueado
+                    ->where($row, true)//where si esta activo o eliminado
+                    ->where('acc_id', $user->acc_id);//account logueado
                 break;
             case 6://si ninguno va
                 $meta = [];
                 //armo el query
                 $queryBuilder = $model::select($_columns)
-                    ->where($row,true)//where si esta activo o eliminado
-                    ->where('acc_id',$user->acc_id);//account logueado
+                    ->where($row, true)//where si esta activo o eliminado
+                    ->where('acc_id', $user->acc_id)//account logueado
+                    ;
+                break;
+            case 7://si va solo sort
+                $meta = [
+                    'Ordenado Por ' => $sortBy
+                ];
+                //armo el query
+                $queryBuilder = $model::select($_columns)
+                    ->where($row, true)//where si esta activo o eliminado
+                    ->where('acc_id', $user->acc_id)//account logueado
+                    ->orderBy($sortBy);//orden del reporte;
+                break;
+            case 8://va solo fecha fin
+                $meta = [];
+                //armo el query
+                $queryBuilder = $model::select($_columns)
+                    ->where($row, true)//where si esta activo o eliminado
+                    ->where('acc_id', $user->acc_id);//account logueado
                 break;
             default://por defecto
-               $meta = [];
+                $meta = [];
                 //armo el query
                 $queryBuilder = $model::select($_columns)
                     ->where($row,true)//where si esta activo o eliminado
-                    ->where('acc_id',$user->acc_id)//account logueado
-                    ->get();
+                    ->where('acc_id',$user->acc_id);//account logueado
+
                 break;
         }
 
-        switch ($format?:'pdf') {
+        switch ($format) {
             case 'xls':
-                return (new ExcelReport())->of($title, $meta, $queryBuilder, $columns)
+                return (new ExcelReport())->of($title, $meta, $queryBuilder, $columns, $icon, $acc_nam, $acc_ruc, $foot)
                     ->limit(20)
                     ->download('/');
                 break;
@@ -144,13 +169,16 @@ class ReportService
                     ->stream();
                 break;
             case 'csv':
-                return (new CSVReport())->of($title, $meta, $queryBuilder, $columns)
+                return (new CSVReport())->of($title, $meta, $queryBuilder, $columns, $icon, $acc_nam, $acc_ruc, $foot)
                     ->download('/');
                 break;
             default:
-                return (new PdfReport())->of($title, $meta, $queryBuilder, $columns, $icon, $acc_nam, $acc_ruc, $foot)
-                    ->setCss(['.head-content' => 'border-width: 0px'])
-                    ->stream();
+                //si no se indica formato devuelve json
+                $resourceOptions = $this->parseResourceOptions();
+                $this->applyResourceOptions($queryBuilder, $resourceOptions);
+                $items = $queryBuilder->get();
+                $parsedData = $this->parseData($items, $resourceOptions);
+                return response()->json($parsedData, 200);
                 break;
         }
 
@@ -187,48 +215,15 @@ class ReportService
         if (!isset($fromDate) && !isset($toDate) && !isset($sortBy)){
             $bandera = 6;
         }
+        //si solo viene sort
+        if (!isset($fromDate) && !isset($toDate) && isset($sortBy)){
+            $bandera = 7;
+        }
+        //si solo viene sort
+        if (!isset($fromDate) && isset($toDate) && !isset($sortBy)){
+            $bandera = 8;
+        }
         return $bandera;
     }
 
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-
-    public function prep(Request $request, $_title, $_columns, $query){
-        $desde = $request->get('from_date');
-        $toDate = $request->get('to_date');
-        $sortBy = $request->get('sort');
-        $format = $request->get('format');
-
-        $title = $_title?:"Reporte";
-
-        $meta = [
-            'Desde: ' => $desde,
-            'Hasta: ' => $toDate,
-            'Por: ' => $sortBy
-        ];
-
-        $queryBuilder = $query;
-
-        $columns = $_columns;
-
-        switch ($format?:'pdf') {
-            case 'xls':
-                 return (new ExcelReport())->of($title, $meta, $queryBuilder, $columns)
-                ->limit(20)
-                ->download('/');
-                break;
-            case 'pdf':
-                return (new PdfReport())->of($title, $meta, $queryBuilder, $columns)
-                ->stream();
-                break;
-            default:
-                return (new PdfReport())->of($title, $meta, $queryBuilder, $columns)
-                ->stream();
-                break;
-        }
-
-    }
 }

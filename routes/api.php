@@ -41,64 +41,37 @@ Route::group([
     /**
      * grupo de rutas controladas por el rol sysadmin
      */
-Route::group(['middleware' => ['role:sysadmin']], function (){
-    Route::resource('users', 'Tatuco\UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
-    Route::resource('roles', 'Tatuco\RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
-    Route::resource('permissions', 'Tatuco\PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
-    Route::get('/backup', 'Tatuco\TatucoController@backup')->middleware('permission:run.backup');
-    Route::post('users/role', 'Tatuco\UserController@assignedRole');
-    Route::get('users/role/{user}/{role}', 'Tatuco\UserController@revokeRole');
-    Route::post('roles/permission', 'Tatuco\RoleController@assignedPermission');
-    Route::get('roles/permission/{role}/{permission}', 'Tatuco\RoleController@revokePermission');
+    Route::group(['middleware' => ['role:sysadmin']], function (){
+        //rutas a la carpeta tatuco
+        Route::resource('users', 'Tatuco\UserController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+        Route::resource('roles', 'Tatuco\RoleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+        Route::resource('permissions', 'Tatuco\PermissionController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+        Route::get('/backup', 'Tatuco\TatucoController@backup')->middleware('permission:run.backup');
+        Route::post('users/role', 'Tatuco\UserController@assignedRole');
+        Route::get('users/role/{user}/{role}', 'Tatuco\UserController@revokeRole');
+        Route::post('roles/permission', 'Tatuco\RoleController@assignedPermission');
+        Route::get('roles/permission/{role}/{permission}', 'Tatuco\RoleController@revokePermission');
 
-});
-    /**
-     * grupo de rutas controladas por los roles sysadmin y admin
-     */
-Route::group(['middleware' => ['role:admin']], function () {
-            /**
-             * rutas del rol administrador
-             */
-});
 
-Route::group(['middleware' => ['role:sysadmin']], function () {
+        //rutas a la carpeta gasolinera
+        Route::resource('accounts', 'Gasolinera\AccountController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
 
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('/clients', 'Inventary\ClientTypeController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-        Route::resource('/employees', 'Inventary\EmployeeTypeController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-        Route::resource('/products', 'Inventary\ProductTypeController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-        Route::resource('/suppliers', 'Inventary\SupplierTypeController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
+
+        /**
+         * rutas con el prefijo types
+         */
+        Route::group(['prefix' => 'types'], function () {
+            Route::resource('/clients', 'Inventary\ClientTypeController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
+        });//cierre de rutas types
+
+
+        /**
+         * rutas con el prefijo reports
+         */
+        Route::group(['prefix' => 'reports'], function () {
+            Route::get('users','Tatuco\ReportController@users');
+            Route::get('accounts','Tatuco\ReportController@accounts');
+        });//cierre de rutas de reporte
+
     });
-    
-    Route::resource('brands', 'Inventary\BrandController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('categories', 'Inventary\CategoryController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('employees', 'Inventary\EmployeeController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('clients', 'Inventary\ClientController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('inventary', 'Inventary\InventaryController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('measures', 'Inventary\MeasureController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('operations', 'Inventary\OperationController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('details/operations', 'Inventary\OperationDetailController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('products', 'Inventary\ProductController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('suppliers', 'Inventary\SupplierController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-    Route::resource('taxs', 'Inventary\TaxController', ['only' => ['index', 'store', 'update', 'destroy', 'show','create']]);
-
-});//cierre de rutas del rol sysadmin
-
-Route::group(['prefix' => 'reports'], function () {
-    
-        Route::get('users','Tatuco\ReportController@users');
-        Route::get('clients','Inventary\ClientController@report');
-        Route::get('brands','Inventary\BrandController@report');
-        Route::get('categories','Inventary\CategoryController@report');
-        Route::get('employees','Inventary\EmployeeController@report');
-        Route::get('measures','Inventary\MeasuresController@report');
-        Route::get('operations','Inventary\OperationController@report');
-        Route::get('products','Inventary\ProductsController@report');
-        Route::get('suppliers','Inventary\SupplierController@report');
-        Route::get('taxs','Inventary\TaxController@report');
-
-
-});//cierre de rutas de reporte
-
-
 });//cierre de rutas que necesitan token (loguearse)

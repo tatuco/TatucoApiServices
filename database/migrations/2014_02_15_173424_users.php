@@ -14,7 +14,7 @@ class Users extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('id')->comment('dsjfdjfdsj');
+            $table->increments('id');
             $table->string('use_dni', 15)->unique();
             $table->string('use_nam', 50);
             $table->string('use_lna', 50)->nullable();

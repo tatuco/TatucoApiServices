@@ -16,6 +16,7 @@ class ModelsVehicles extends Migration
         Schema::create('models_vehicles', function (Blueprint $table) {
             $table->increments('mod_id');
             $table->integer('bra_id')->unsigned()->index();
+            $table->string('use_nic', 15)->unsigned()->index();
             $table->timestamps();
             $table->string('mod_nam', 250);
             $table->string('mod_des', 250)->nullable();
@@ -23,6 +24,8 @@ class ModelsVehicles extends Migration
             $table->integer('acc_id')->unsigned()->index();
 
             //fk
+            //fk
+            $table->foreign('use_nic')->references('use_nic')->on('users')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('bra_id')->references('bra_id')->on('brands_vehicles')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('acc_id')->references('acc_id')->on('accounts')->onUpdate('cascade')->onDelete('restrict');
         });

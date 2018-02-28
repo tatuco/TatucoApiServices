@@ -3,7 +3,6 @@
 namespace App\Http\Services\Tatuco;
 
 use App\Models\Gasolinera\Account;
-use App\Http\Services\Tatuco\TatucoService;
 use Illuminate\Http\Request;
 use App\Reports\src\ReportMedia\ExcelReport;
 use App\Reports\src\ReportMedia\PdfReport;

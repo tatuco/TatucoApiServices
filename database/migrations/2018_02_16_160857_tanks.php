@@ -16,6 +16,8 @@ class Tanks extends Migration
         Schema::create('tanks', function (Blueprint $table) {
             $table->increments('tan_id');
             $table->integer('tan_cap');
+            $table->integer('tan_qua');
+            $table->integer('fue_id')->unsigned()->index();
             $table->string('use_nic', 15)->unsigned()->index();
             $table->integer('sts_id')->unsigned()->index();
             $table->string('tan_des', 250)->nullable();
@@ -24,6 +26,7 @@ class Tanks extends Migration
             $table->integer('acc_id')->unsigned()->index();
 
             //fk
+            $table->foreign('fue_id')->references('fue_id')->on('fuels')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('use_nic')->references('use_nic')->on('users')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('sts_id')->references('sts_id')->on('stations')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('acc_id')->references('acc_id')->on('accounts')->onUpdate('cascade')->onDelete('restrict');

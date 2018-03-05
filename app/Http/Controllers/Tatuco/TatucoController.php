@@ -14,6 +14,7 @@ class TatucoController extends Controller
     public $columns;
     public $campo;
     public $status;
+    public $validate;
 
     public function __construct(TatucoService $tatucoService, ReportService $reportService){
         $this->tatucoService = $tatucoService;

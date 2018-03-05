@@ -76,11 +76,10 @@ class ReportService extends LaravelController
                 ];
                 //armo el query
                 $queryBuilder = $model::select($_columns)
-                    ->whereBetween('created_at', [$fromDate, $toDate])//por rango de fechas
+                    ->whereBetween('created_at', array($fromDate, $toDate))//por rango de fechas
                     ->where($row, true)//where si esta activo o eliminado
                     ->where('acc_id', $user->acc_id)//account logueado
-                    ->orderBy($sortBy)//orden de la consulta
-                    ->get();
+                    ->orderBy($sortBy);//orden de la consulta
                 break;
             case 2://si en el param va fecha inicio y fin
                 $meta = [
@@ -89,10 +88,9 @@ class ReportService extends LaravelController
                 ];
                 //armo el query
                 $queryBuilder = $model::select($_columns)
-                    ->whereBetween('created_at', [$fromDate, $toDate])//por rango de fechas
+                    ->whereBetween('created_at', array($fromDate, $toDate))//por rango de fechas
                     ->where($row, true)//where si esta activo o eliminado
-                    ->where('acc_id', $user->acc_id)//account logueado
-                    ->get();
+                    ->where('acc_id', $user->acc_id);//account logueado
                 break;
             case 3://si en el param va fecha inicio y orden
                 $meta = [
@@ -164,8 +162,8 @@ class ReportService extends LaravelController
         switch ($format) {
             case 'xls':
                 return (new ExcelReport())->of($title, $meta, $queryBuilder, $columns, $icon, $acc_nam, $acc_ruc, $foot)
-                    ->limit(20)
-                    ->download('/');
+                    ->setCss(['.head-content' => 'border-width: 0px'])
+                    ->download('Reporte');
                 break;
             case 'pdf':
                 return (new PdfReport())->of($title, $meta, $queryBuilder, $columns, $icon, $acc_nam, $acc_ruc, $foot)
@@ -174,7 +172,8 @@ class ReportService extends LaravelController
                 break;
             case 'csv':
                 return (new CSVReport())->of($title, $meta, $queryBuilder, $columns, $icon, $acc_nam, $acc_ruc, $foot)
-                    ->download('/');
+                    ->setCss(['.head-content' => 'border-width: 0px'])
+                    ->download('Reporte');
                 break;
             default:
                 //si no se indica formato devuelve json

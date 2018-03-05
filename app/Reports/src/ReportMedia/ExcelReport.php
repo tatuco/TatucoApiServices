@@ -7,7 +7,7 @@ use App\Reports\src\ReportGenerator;
 
 class ExcelReport extends ReportGenerator
 {
-	private $format = 'xlsx';
+	private $format = 'xls';
 	private $total = [];
 
 	public function setFormat($format)

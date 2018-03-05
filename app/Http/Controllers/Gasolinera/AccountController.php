@@ -14,6 +14,15 @@ class AccountController extends TatucoController
         $this->service = new AccountService();
         $this->campo = 'acc_id';//llave primaria
         $this->status = 'acc_act';//campo de activo o eliminado
+        $this->validate = [//campo de validaciones
+            'acc_enc' => 'required',
+            'acc_id' => 'required',
+            'acc_des' => 'required',
+            'acc_dir' => 'required',
+            'acc_nom' => 'required',
+            'acc_ruc' => 'required',
+            'acc_pho' => 'required',
+        ];
     }
 
     //funcion que guarda los registros

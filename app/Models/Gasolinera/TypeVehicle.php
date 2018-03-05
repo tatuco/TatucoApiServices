@@ -4,7 +4,7 @@ namespace App\Models\Gasolinera;
 
 use Illuminate\Database\Eloquent\Model;
 
-class typeVehicle extends Model
+class TypeVehicle extends Model
 {
     public $timestamps = true;
     protected $primaryKey = 'tve_id';

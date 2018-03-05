@@ -19,6 +19,7 @@ class DetailIncomeFuels extends Migration
             $table->decimal('din_amu', 10, 4);
             $table->integer('inc_id')->unsigned()->index();
             $table->integer('fue_id')->unsigned()->index();
+            $table->integer('tan_id')->unsigned()->index();
             //$table->integer('ume_id')->unsigned()->index();
             $table->boolean('din_act')->default(true);
             $table->integer('acc_id')->unsigned()->index();
@@ -26,6 +27,7 @@ class DetailIncomeFuels extends Migration
             //fk
             $table->foreign('inc_id')->references('inc_id')->on('income_fuels')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('fue_id')->references('fue_id')->on('fuels')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('tan_id')->references('tan_id')->on('tanks')->onUpdate('cascade')->onDelete('restrict');
             //$table->foreign('ume_id')->references('ume_id')->on('units_measure')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('acc_id')->references('acc_id')->on('accounts')->onUpdate('cascade')->onDelete('restrict');
         });

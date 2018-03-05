@@ -2,17 +2,11 @@
 
 namespace App\Http\Services\Tatuco;
 
-use App\Http\Requests\UserRequest;
-use App\Models\Tatuco\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Mockery\Exception;
+use Illuminate\Support\Facades\Validator;
 use Optimus\Bruno\EloquentBuilderTrait;
 use Optimus\Bruno\LaravelController;
-use Tymon\JWTAuth\JWTAuth;
-use Carbon\Carbon;
-use App\Http\Services\Tatuco\ReportService;
 
 class TatucoService extends LaravelController
 {
@@ -124,9 +118,17 @@ class TatucoService extends LaravelController
      * @return \Illuminate\Http\JsonRespon
      * guardar un registro nuevo
      */
-    public function _store(Request $request)
+    public function _store(Request $request, $validate)
     {
         try{
+
+            //consulto las validaciones
+            if (($this->validation($request, $validate)) == false ) {
+                return response()->json([
+                    'message' => 'No paso las validaciones pertinentes',
+                    'validaciones' => $validate
+                ],422);
+            }
             //consulto los permisos
             if (($this->checkPermission('store.'.$this->name)) == false ) {
                 return response()->json([
@@ -167,9 +169,17 @@ class TatucoService extends LaravelController
      * @return \Illuminate\Http\JsonResponse
      * acualizar registro
      */
-    public function _update($campo, $dato, $status, Request $request)
+    public function _update($campo, $dato, $status, Request $request, $validate)
     {
         try {
+            //consulto las validaciones
+            if (($this->validation($request, $validate)) == false ) {
+                return response()->json([
+                    'message' => 'No paso las validaciones pertinentes',
+                    'validaciones' => $validate
+                ],422);
+            }
+
             //consulto los permisos
             if (($this->checkPermission('update.'.$this->name)) == false ) {
                 return response()->json([
@@ -334,12 +344,25 @@ class TatucoService extends LaravelController
     //metodo que consulta los permisos
     public function checkPermission($permissions)
     {
-
         if (!\JWTAuth::parseToken()->authenticate()->can($permissions)) {
-
             return false;
         }
-
         return true;
+    }
+
+    //validaciones
+    public function validation ($request, $validate)
+    {
+        $validator = Validator::make($request->all(),
+            $validate
+            );
+
+        if ($validator->fails())
+        {
+            return false;
+
+        }
+        return true;
+
     }
 }

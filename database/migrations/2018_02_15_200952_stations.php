@@ -18,6 +18,7 @@ class Stations extends Migration
             $table->string('sts_nam', 250);
             $table->integer('cit_id')->unsigned()->index();
             $table->string('sts_dir', 250);
+            $table->integer('sts_qut');//cantidad sumada de los tanques asignados
             $table->string('sts_pho', 25);
             $table->string('sts_mai', 130);
             $table->timestamps();

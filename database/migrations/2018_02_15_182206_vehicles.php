@@ -19,6 +19,7 @@ class Vehicles extends Migration
             //$table->integer('veh_sta')->unsigned()->index(); estatus del vehiculo
             $table->timestamps();
             $table->string('use_nic', 15)->unsigned()->index();
+            $table->string('veh_des', 15);
             $table->integer('tve_id')->unsigned()->index();
             $table->integer('fle_id')->unsigned()->index();
             $table->integer('mod_id')->unsigned()->index();

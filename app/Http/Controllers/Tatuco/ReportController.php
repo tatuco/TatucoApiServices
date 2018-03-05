@@ -109,7 +109,7 @@ class ReportController extends Controller
         //setea las nombres con las columnas en la bd
         $columns = [
             'DNI' => 'dri_dni',
-            'Nombres y Apellidos' => 'dri_nam',
+            'Nombres' => 'dri_nam', 'dri_lna',
             'Licencia' => 'dri_lic',
             'Telefono' => 'dri_pho',
             'Email' => 'dri_mai'
@@ -178,11 +178,61 @@ class ReportController extends Controller
             'Nombre del Tipo de Vehiculo' => 'tve_des'
         ];
         //setea el nombre del modelo
-        $model='App\Models\Gasolinera\typeVehicle';
+        $model='App\Models\Gasolinera\TypeVehicle';
         //setea el nombre plural
         $namePlural='Tipos de Vehiculos';
         $title='Reporte de Tipos de Vehiculos';
         $row = 'tve_act';
+        //$query = DB::table('users')->select('use_dni','use_nam', 'email', 'use_nic', 'created_at', 'updated_at')->get();
+
+        //envio los datos a la super funcion report()
+        return $this->reportService->report($request,$model, $namePlural, $columns, $title, $row);
+    }
+
+
+    //reportes de  vehiculos
+    public function fleets(Request $request)
+    {
+        //Parametros a pasar al service
+
+        //setea las nombres con las columnas en la bd
+        $columns = [
+            'Nombre de la Flota' => 'fle_des'
+        ];
+        //setea el nombre del modelo
+        $model='App\Models\Gasolinera\Fleet';
+        //setea el nombre plural
+        $namePlural='Flotas';
+        $title='Reporte de Flotas';
+        $row = 'fle_act';
+        //$query = DB::table('users')->select('use_dni','use_nam', 'email', 'use_nic', 'created_at', 'updated_at')->get();
+
+        //envio los datos a la super funcion report()
+        return $this->reportService->report($request,$model, $namePlural, $columns, $title, $row);
+    }
+
+
+    //reportes de  vehiculos
+    public function vehicles(Request $request)
+    {
+        //Parametros a pasar al service
+
+        //setea las nombres con las columnas en la bd
+        $columns = [
+            'Placa' => 'veh_pla',
+            'Nombre del Vehiculo' => 'veh_des',
+            'Limite de Consumo' => 'veh_com',
+            'Tipo de Vehiculo' => 'tve_id',
+            'Modelo del Vehiculo' => 'mod_id',
+            'Flota del Vehiculo' => 'fle_id',
+            'Estado de Asignacion' => 'sta_id'
+        ];
+        //setea el nombre del modelo
+        $model='App\Models\Gasolinera\Vehicle';
+        //setea el nombre plural
+        $namePlural='Vehiculos';
+        $title='Reporte de Vehiculos';
+        $row = 'veh_act';
         //$query = DB::table('users')->select('use_dni','use_nam', 'email', 'use_nic', 'created_at', 'updated_at')->get();
 
         //envio los datos a la super funcion report()

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Driver extends Model
 {
     public $timestamps = true;
+    public $incrementing = false;
     protected $primaryKey = 'dri_dni';
     protected $table ="drivers";
     protected $fillable = [

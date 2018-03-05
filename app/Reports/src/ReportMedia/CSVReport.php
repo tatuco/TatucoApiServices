@@ -4,8 +4,7 @@ namespace App\Reports\src\ReportMedia;
 
 use App, Closure, Exception;
 use App\Reports\src\ReportGenerator;
-use Illuminate\Log\Writer;
-use SplTempFileObject;
+use League\Csv\Writer;
 
 class CSVReport extends ReportGenerator
 {
@@ -18,7 +17,7 @@ class CSVReport extends ReportGenerator
             throw new Exception('Please install league/csv to generate CSV Report!');
         }
 
-        $csv = Writer::createFromPath(new SplTempFileObject());
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
 
         if ($this->showMeta) {
             foreach ($this->headers['meta'] as $key => $value) {

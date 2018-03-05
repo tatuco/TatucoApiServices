@@ -442,6 +442,149 @@ class PermissionSeeder extends Seeder
         ]);
 
 
+        //permisos para fleets
+        DB::table('permissions')->insert([
+            'name'=> 'index fleet',
+            'slug'=>'index.fleet',
+            'description' => 'listar fleet',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 31,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        //
+        DB::table('permissions')->insert([
+            'name'=> 'update fleet',
+            'slug'=>'update.fleet',
+            'description' => 'actualizar fleet',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 32,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        //
+        DB::table('permissions')->insert([
+            'name'=> 'show fleet',
+            'slug'=>'show.fleet',
+            'description' => 'mostrar un fleet',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 33,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        //
+        DB::table('permissions')->insert([
+            'name'=> 'store fleet',
+            'slug'=>'store.fleet',
+            'description' => 'guardar un fleet',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 34,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        //
+        DB::table('permissions')->insert([
+            'name'=> 'delete fleet',
+            'slug'=>'delete.fleet',
+            'description' => 'borrar fleet',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 35,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
+
+        //permisos para vehicles
+        DB::table('permissions')->insert([
+            'name'=> 'index vehicle',
+            'slug'=>'index.vehicle',
+            'description' => 'listar vehicle',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 36,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        //
+        DB::table('permissions')->insert([
+            'name'=> 'update vehicle',
+            'slug'=>'update.vehicle',
+            'description' => 'actualizar vehicle',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 37,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        //
+        DB::table('permissions')->insert([
+            'name'=> 'show vehicle',
+            'slug'=>'show.vehicle',
+            'description' => 'mostrar un vehicle',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 38,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        //
+        DB::table('permissions')->insert([
+            'name'=> 'store vehicle',
+            'slug'=>'store.vehicle',
+            'description' => 'guardar un vehicle',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 39,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        //
+        DB::table('permissions')->insert([
+            'name'=> 'delete vehicle',
+            'slug'=>'delete.vehicle',
+            'description' => 'borrar vehicle',
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+        DB::table('permission_role')->insert([
+            'permission_id'=> 40,
+            'role_id'=> 1,
+            'created_at'=> new DateTime,
+            'updated_at'=> new DateTime
+        ]);
+
         //permisos especiales
         //
         DB::table('permissions')->insert([
@@ -452,7 +595,7 @@ class PermissionSeeder extends Seeder
             'updated_at'=> new DateTime
         ]);
         DB::table('permission_role')->insert([
-            'permission_id'=> 31,
+            'permission_id'=> 41,
             'role_id'=> 1,
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime
@@ -467,7 +610,7 @@ class PermissionSeeder extends Seeder
             'updated_at'=> new DateTime
         ]);
         DB::table('permission_role')->insert([
-            'permission_id'=> 32,
+            'permission_id'=> 42,
             'role_id'=> 1,
             'created_at'=> new DateTime,
             'updated_at'=> new DateTime

@@ -1,18 +1,17 @@
 <?php
-
 namespace app\Http\Services\Gasolinera;
 
 use App\Http\Services\Tatuco\TatucoService;
-use App\Models\Gasolinera\TypeVehicle;
+use App\Models\Gasolinera\Vehicle;
 use Illuminate\Http\Request;
 
-class TypeVehicleService extends TatucoService
+class VehicleService extends TatucoService
 {
     public function __construct()
     {
-        $this->name = 'type_vehicle';
-        $this->model = new TypeVehicle();
-        $this->namePlural = 'types_vehicles';
+        $this->name = 'vehicle';
+        $this->model = new Vehicle();
+        $this->namePlural = 'vehicles';
     }
 
     //funcion que guarda registros

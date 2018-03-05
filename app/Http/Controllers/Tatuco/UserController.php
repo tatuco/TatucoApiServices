@@ -25,20 +25,28 @@ class UserController extends TatucoController
         //campo por el cual va a buscar el findTatuco
         $this->campo = 'use_dni';//llave primaria
         $this->status = 'use_act';//campo de activo o eliminado
+        $this->validate = [//campo de validaciones
+            'use_dni' => 'required|string',
+            'use_nam' => 'required|string',
+            'use_lna' => 'nullable',
+            'email'    => 'required|email|unique:users',
+            'use_nic'    => 'required|unique:users|min:6',
+            'password'    => 'required|min:6'
+        ];
     }
 
     //funcion que guarda los registros
     public function store(Request $request)
     {
         //llama a userService
-        return $this->service->store($request);
+        return $this->service->store($request, $this->validate);
     }
 
     //funcion que actualiza los registros
     public function update($dato, Request $request)
     {
         //llama a userService
-      return $this->service->update($this->campo, $dato, $this->status, $request);
+      return $this->service->update($this->campo, $dato, $this->status, $request, $this->validate);
     }
     //funcion assigna roles
     public function assignedRole(Request $request)

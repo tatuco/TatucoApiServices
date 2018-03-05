@@ -2,6 +2,7 @@
 namespace App\Http\Services\Tatuco;
 
 use App\Models\Tatuco\User;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -23,23 +24,24 @@ class UserService extends TatucoService
     }
 
     //guardar
-    public function store(Request $request){
+    public function store(Request $request, $validate){
+
         $pass = bcrypt($request->json(['password']));
         $request->merge(['password' => $pass]);
 
         //llamo a tatucoservice
-        return $this->_store($request);
+        return $this->_store($request, $validate);
     }
 
     //actualizar
-    public function update($campo, $dato, $status, Request $request)
+    public function update($campo, $dato, $status, Request $request, $validate)
     {
          if($request->json(['password'])){
            $pass = bcrypt($request->json(['password']));
            $request->merge(['password' => $pass]);
         }
         //llamo a tatuco service
-        return $this->_update($campo, $dato, $status, $request);
+        return $this->_update($campo, $dato, $status, $request, $validate);
     }
 
     //eliminar
@@ -95,5 +97,7 @@ class UserService extends TatucoService
             return response()->json(["msj"=>"Error de servidor"], 500);
         }
     }
+
+
    
 }

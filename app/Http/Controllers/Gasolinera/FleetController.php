@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Gasolinera;
 
 use App\Http\Controllers\Tatuco\TatucoController;
-use App\Http\Services\Gasolinera\ModelVehicleService;
+use App\Http\Services\Gasolinera\FleetService;
 use Illuminate\Http\Request;
 
 class FleetController extends TatucoController
 {
     public function __construct()
     {
-        $this->service = new ModelVehicleService();
+        $this->service = new FleetService();
         $this->campo = 'fle_id';//llave primaria
         $this->status = 'fle_act';//campo de activo o eliminado
     }

@@ -65,6 +65,8 @@ Route::group([
         Route::resource('drivers', 'Gasolinera\DriverController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
         Route::resource('brands/vehicles', 'Gasolinera\BrandVehicleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
         Route::resource('models/vehicles', 'Gasolinera\ModelVehicleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+        Route::resource('fleets', 'Gasolinera\FleetController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
+        Route::resource('vehicles', 'Gasolinera\VehicleController', ['only' => ['index', 'store', 'update', 'destroy', 'show']]);
 
 
         /**
@@ -86,6 +88,8 @@ Route::group([
             Route::get('brands/vehicles','Tatuco\ReportController@brandsVehicles');
             Route::get('models/vehicles','Tatuco\ReportController@modelsVehicles');
             Route::get('types/vehicles','Tatuco\ReportController@typesVehicles');
+            Route::get('fleets','Tatuco\ReportController@fleets');
+            Route::get('vehicles','Tatuco\ReportController@vehicles');
         });//cierre de rutas de reporte
 
     });

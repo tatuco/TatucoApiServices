@@ -16,7 +16,7 @@ class Tanks extends Migration
         Schema::create('tanks', function (Blueprint $table) {
             $table->increments('tan_id');
             $table->integer('tan_cap');
-            $table->integer('tan_qua');
+            $table->integer('tan_qua');//cantidad de gasolina
             $table->integer('fue_id')->unsigned()->index();
             $table->string('use_nic', 15)->unsigned()->index();
             $table->integer('sts_id')->unsigned()->index();

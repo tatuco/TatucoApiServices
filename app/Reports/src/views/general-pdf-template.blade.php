@@ -115,7 +115,7 @@ if ($showTotalColumns != []) {
 
 			<div class="head-content">
 				@if( $headers['meta'] )
-				<div class="date">Fecha:</div>
+				<div class="date">Parametros:</div>
 				@endif
 					<?php $metaCtr = 0; ?>
 					@foreach($headers['meta'] as $name => $value)

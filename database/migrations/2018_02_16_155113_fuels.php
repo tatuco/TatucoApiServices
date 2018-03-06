@@ -17,6 +17,7 @@ class Fuels extends Migration
             $table->increments('fue_id');
             $table->string('fue_des', 250);
             $table->integer('fue_oct');
+            $table->integer('fue_qua');//cantidad total de combustible
             $table->timestamps();
             $table->string('use_nic', 15)->unsigned()->index();
             $table->integer('tfu_id')->unsigned()->index();

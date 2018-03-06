@@ -36,7 +36,8 @@ class ReportController extends Controller
         //setea las nombres con las columnas en la bd
         $columns = [
             'DNI' => 'use_dni',
-            'Nombres y Apellidos' => 'use_nam',
+            'Nombres' => 'use_nam',
+            'Apellidos' => 'use_lna',
             'Email' => 'email',
             'Nombre de Usuario' => 'use_nic'
         ];
@@ -109,7 +110,8 @@ class ReportController extends Controller
         //setea las nombres con las columnas en la bd
         $columns = [
             'DNI' => 'dri_dni',
-            'Nombres' => 'dri_nam', 'dri_lna',
+            'Nombres' => 'dri_nam',
+            'Apellidos' => 'dri_lna',
             'Licencia' => 'dri_lic',
             'Telefono' => 'dri_pho',
             'Email' => 'dri_mai'

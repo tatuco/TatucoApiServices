@@ -173,7 +173,7 @@ class ReportService extends LaravelController
             case 'csv':
                 return (new CSVReport())->of($title, $meta, $queryBuilder, $columns, $icon, $acc_nam, $acc_ruc, $foot)
                     ->setCss(['.head-content' => 'border-width: 0px'])
-                    ->download('Reporte');
+                    ->download('reporte');
                 break;
             default:
                 //si no se indica formato devuelve json

@@ -51,19 +51,22 @@ if ($showTotalColumns != []) {
 ?>
 <table>
 	<tr>
-		<td colspan="{{ count($columns) + 1 }}" class="center"><h1>{{ $headers['title'] }}</h1></td>
+		<td colspan="{{ count($columns) }}"  class="center"><h1>{{ $headers['title'] }}</h1></td>
+		<td><img width="170" height="80" src="{{$headers['icon']}}"></td>
+	</tr>
+	<tr></tr>
 	@foreach($headers['meta'] as $name => $value)
 		<tr>
 			<td><b>{{ $name }}</b></td>
 			<td colspan="{{ count($columns) }}">{{ ucwords($value) }}</td>
 		</tr>
 		@endforeach
-		</tr>
+
 </table>
 <table>
 	<thead>
 	<tr>
-		<th class="left">No</th>
+		<th class="left">Nro</th>
 		@foreach ($columns as $colName => $colData)
 			@if (array_key_exists($colName, $editColumns))
 				<th class="{{ isset($editColumns[$colName]['class']) ? $editColumns[$colName]['class'] : 'left' }}">{{ $colName }}</th>

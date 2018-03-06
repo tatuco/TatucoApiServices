@@ -2,9 +2,10 @@
 
 namespace App\Reports\src\ReportMedia;
 
-use App, Closure, Exception;
+use App, Closure;
 use App\Reports\src\ReportGenerator;
 use League\Csv\Writer;
+use SplTempFileObject;
 
 class CSVReport extends ReportGenerator
 {
@@ -13,17 +14,15 @@ class CSVReport extends ReportGenerator
 
     public function download($filename)
     {
-        if (!class_exists(Writer::class)) {
-            throw new Exception('Please install league/csv to generate CSV Report!');
-        }
-
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=Reporte.csv');
         $csv = Writer::createFromFileObject(new SplTempFileObject());
 
         if ($this->showMeta) {
             foreach ($this->headers['meta'] as $key => $value) {
                 $csv->insertOne([$key, $value]);
             }
-            $csv->insertOne([' ']);
+            $csv->insertOne(['']);
         }
 
         $ctr = 1;
@@ -31,6 +30,7 @@ class CSVReport extends ReportGenerator
 
         if ($this->showHeader) {
             $columns = array_keys($this->columns);
+            array_unshift($columns,"Nro");
             $csv->insertOne($columns);
         }
 
@@ -50,7 +50,7 @@ class CSVReport extends ReportGenerator
             if ($this->applyFlush) flush();
         });
 
-        $csv->output($filename . '.csv');
+        $csv->output();
     }
 
     private function formatRow($result)
